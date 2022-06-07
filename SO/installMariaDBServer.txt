@@ -1,0 +1,15 @@
+#Instalamos MariaDB en su versión correspondiente
+yum install mariadb-5.5.68
+(yum install mariadb-client)
+(yum install mysql)
+
+#Lo habilitamos e iniciamos
+systemctl enable mariadb
+systemctl start mariadb
+
+#Ejecutamos la instalacion
+mysql_scure_installtion
+
+#Abrimos los puertos de MariaDB
+firewall-cmd --zone=public --add-port=3306/tcp --permanent
+firewall-cmd --reload
