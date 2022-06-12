@@ -1,0 +1,13 @@
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\bin\Debug\1° Entregra.exe.config
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\bin\Debug\1° Entregra.exe
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\bin\Debug\1° Entregra.pdb
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\obj\Debug\1° Entregra.csproj.AssemblyReference.cache
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\obj\Debug\1° Entregra.csproj.SuggestedBindingRedirects.cache
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\obj\Debug\_1__Entregra.frm_Login.resources
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\obj\Debug\_1__Entregra.Properties.Resources.resources
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\obj\Debug\1° Entregra.csproj.GenerateResource.cache
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\obj\Debug\1° Entregra.csproj.CoreCompileInputs.cache
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\obj\Debug\1° Entregra.exe
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\obj\Debug\1° Entregra.pdb
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\obj\Debug\_1__Entregra.Resources.frm_ProducciónAgricola.resources
+C:\Users\dylan\source\repos\1° Entregra\1° Entregra\obj\Debug\_1__Entregra.Resources.frm_CompraYVenta.resources
