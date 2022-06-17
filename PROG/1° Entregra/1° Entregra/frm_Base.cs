@@ -49,7 +49,6 @@ namespace _1__Entregra
                 formulario.BringToFront();
             }
         }
-
         public frm_Base()
         {
             InitializeComponent();
@@ -185,22 +184,32 @@ namespace _1__Entregra
             }
             else
             {
-                LimpiarLogin();
+                
                 pic_Minimizar.Location = izquierda;
                 pic_Agrandar.Visible = true;
-                
                 AbrirFormulario<frm_Compra>();
                 panel_Menu.Enabled = true;
                 panel_Menu.Visible = true;
-                //panel_Ingreso.Dock = DockStyle.None;
-                //panel_Menu.BringToFront();
-                //panel_Menu.Dock= DockStyle.Left;
-                //panel_Ingreso.Dock = DockStyle.Fill;
                 panel_Ingreso.SendToBack();
                 panel_Menu.Dock = DockStyle.Left;
                 panel_Ingreso.BringToFront();
                 this.Size = NoLogin;
                 panel_ToolBar.BackColor= Color.Blue;
+                if (txt_Cedula.Text.Equals("12345678")&&txt_Contraseña.Text.Equals("1234D.."))
+                {
+                    btn_Compra.Text = "Usuarios";
+                    btn_Venta.Text = "Precios";
+                    btn_Produccion.Text = "";
+                    AbrirFormulario<frm_Precio>();
+                }
+                else
+                {
+                    btn_Compra.Text = "Compra";
+                    btn_Venta.Text = "Venta";
+                    btn_Produccion.Text = "Produccion";
+                    AbrirFormulario<frm_Compra>();
+                }
+                LimpiarLogin();
             }
         }
 
@@ -218,24 +227,66 @@ namespace _1__Entregra
             this.Size = Login;
             panel_ToolBar.BackColor = Color.DarkGreen;
             pic_Minimizar.Location = derecha;
+            btn_Compra.Text = "Compra";
+            btn_Venta.Text = "Venta";
+            btn_Produccion.Text = "Produccion";
         }
 
         private void btn_Compra_Click(object sender, EventArgs e)
         {
-            formulario.Close();
-            AbrirFormulario<frm_Compra>();
+            if (btn_Compra.Text.Equals("Usuarios"))
+            {
+                formulario.Close();
+                //AbrirFormulario<frm_Usuario>();
+            }
+            else if(btn_Compra.Text.Equals("Compra"))
+            {
+                formulario.Close();
+                AbrirFormulario<frm_Compra>();
+            }
+            else
+            {
+                MessageBox.Show("Si ve este mensaje, es que a surgido un error, contacte con un administrativo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Application.Exit();
+            }
         }
 
         private void btn_Venta_Click(object sender, EventArgs e)
         {
-            formulario.Close();
-            AbrirFormulario<frm_Venta>();
+            if (btn_Venta.Text.Equals("Precios"))
+            {
+                formulario.Close();
+                AbrirFormulario<frm_Precio>();
+            }
+            else if (btn_Venta.Text.Equals("Venta"))
+            {
+                formulario.Close();
+                AbrirFormulario<frm_Venta>();
+            }
+            else
+            {
+                MessageBox.Show("Si ve este mensaje, es que a surgido un error, contacte con un administrativo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Application.Exit();
+            }
         }
 
         private void btn_Producción_Click(object sender, EventArgs e)
         {
-            formulario.Close();
-            AbrirFormulario<frm_Producción>();
+            if (btn_Produccion.Text.Equals(""))
+            {
+                formulario.Close();
+                //AbrirFormulario<frm_Usuario>();
+            }
+            else if (btn_Produccion.Text.Equals("Producción"))
+            {
+                formulario.Close();
+                AbrirFormulario<frm_Producción>();
+            }
+            else
+            {
+                MessageBox.Show("Si ve este mensaje, es que a surgido un error, contacte con un administrativo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Application.Exit();
+            }
         }
     }
 }

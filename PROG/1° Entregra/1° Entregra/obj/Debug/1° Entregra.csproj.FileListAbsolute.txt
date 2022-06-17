@@ -26,3 +26,4 @@ C:\Users\dylan\OneDrive\Escritorio\Respaldo\1° Entregra\1° Entregra\obj\Debug\
 C:\Users\dylan\OneDrive\Escritorio\Respaldo\1° Entregra\1° Entregra\obj\Debug\_1__Entregra.Resources.frm_Producción.resources
 C:\Users\dylan\OneDrive\Escritorio\Respaldo\1° Entregra\1° Entregra\obj\Debug\_1__Entregra.Resources.frm_Compra.resources
 C:\Users\dylan\OneDrive\Escritorio\Respaldo\1° Entregra\1° Entregra\obj\Debug\_1__Entregra.Resources.frm_Venta.resources
+C:\Users\dylan\OneDrive\Escritorio\Respaldo\1° Entregra\1° Entregra\obj\Debug\_1__Entregra.frm_Precio.resources
