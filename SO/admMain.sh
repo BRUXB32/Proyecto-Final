@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 clear
 
@@ -8,16 +8,17 @@ clear
 PS3="Ingrese una opción: "
 
 ############ Variables ############
-nombreG="pepe"
+
 
 ############ Funciones del script ################
 function validarNombre() {
+  #$1 = Mensaje de ingreso de datos
   exp="^[a-z?A-Z]+$"
+  local nombre=""
   read -p "$1" nombre
-  echo $nombre
-    if [[ "$nombre" =~ $exp ]]; then
-      nombreG=$nombre
-      echo 0
+    if [[ $nombre =~ $exp ]]; then
+      echo "0"
+      echo "$nombre"
     else
       echo 1
     fi
@@ -25,25 +26,21 @@ function validarNombre() {
 
 function validacionLogica() {
   #$1 = Mensaje de ingreso de datos
-  #$2 = Mensaje de respuesta positiva
-  #$3 = Mensaje de respuesta negativa
-  #$4 = Mensaje de respuesta erronea
-  read -p "$1 [S/n]" respuesta
+  #$2 = Mensaje de respuesta erronea
+  read -p "$1 [S/n] " respuesta
     if [[ "$respuesta" =~ ^s?S?*$ ]]; then
-      echo "$2"
-      echo "Hola"
+      echo "0"
     elif [[ "$respuesta" =~ ^n?N?+$ ]]; then
-      echo "$3"
+      echo "1"
     else
       while [[ ! "$respuesta" =~ ^s?S?*$ ]] && [[ ! "$respuesta" =~ ^n?N?+$ ]]; do
-        echo "$4"
-        read -p "$1 [S/n]" respuesta
+        read -p "$2 $1 [S/n]" respuesta
       done
     fi
 }
 
 function validarRuta() {
-  read -p $1 ruta
+  read -p "$1" ruta
   if [[ ! -d "$ruta" ]]; then
     echo "Hola"
   fi
@@ -51,15 +48,30 @@ function validarRuta() {
 
 function agruegarUsuario() {
   validacionNombre=$(validarNombre "Ingrese un nombre para el nuevo usuario: ")
-  if [[ "$validacionNombre" == "0" ]]; then
-    echo $nombreG
+  validacion=$(echo "$validacionNombre" | grep "[0-9]")
+  nombre=$(echo "$validacionNombre" | grep "^[a-z?A-Z?]*$")
+
+  if [[ "$validacion" == "0" ]]; then
+    clear
   else
-    while [[ "$validacionNombre" != "0" ]]; do
+    while [[ "$validacion" != "0" ]]; do
       clear
       echo -e "¡Ingresó un nombre invalido!"
       validacionNombre=$(validarNombre "Ingrese un nombre para el nuevo usuario: ")
+      validacion=$(echo "$validacionNombre" | grep "[0-9]")
+      nombre=$(echo "$validacionNombre" | grep "^[a-z?A-Z?]*$")
     done
   fi
+
+  eleccion=$(validacionLogica "¿Crear directorio para el usuario(/home/*)?" "Opción incorrecta ")
+
+  if [[ "$eleccion" == "0" ]]; then
+    #statements
+    echo "Se creara carpeta para el usuario, tomara el mismo nombre de usuario"
+  else
+    echo "No se creara carpeta para el usuario"
+  fi
+
 }
 
 ############ Menú principal ############
@@ -69,7 +81,6 @@ while [[ true ]]; do
     case $REPLY in
       1)
       agruegarUsuario
-      echo $nombre
       #read -p "¿Crear directorio para el usuario? [S/n]" respuesta
       break
       ;;
@@ -91,7 +102,7 @@ while [[ true ]]; do
       ;;
       3)clear
       validarNombre "Ingrese un nombre para el nuevo usuario: "
-      echo $nombre
+      echo "$nombre"
       break
       ;;
       4)exit
