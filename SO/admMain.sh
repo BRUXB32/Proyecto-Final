@@ -20,7 +20,7 @@ function validarNombre() {
       echo "0"
       echo "$nombre"
     else
-      echo 1
+      echo "1"
     fi
 }
 
@@ -36,6 +36,15 @@ function validacionLogica() {
       while [[ ! "$respuesta" =~ ^s?S?*$ ]] && [[ ! "$respuesta" =~ ^n?N?+$ ]]; do
         read -p "$2 $1 [S/n]" respuesta
       done
+
+      if [[ "$respuesta" =~ ^s?S?*$ ]]; then
+        echo "0"
+      elif [[ "$respuesta" =~ ^n?N?+$ ]]; then
+        echo "1"
+      else
+        echo "1"
+      fi
+
     fi
 }
 
@@ -47,6 +56,7 @@ function validarRuta() {
 }
 
 function agruegarUsuario() {
+  #Ingreso del nombre del nuevo usuario
   validacionNombre=$(validarNombre "Ingrese un nombre para el nuevo usuario: ")
   validacion=$(echo "$validacionNombre" | grep "[0-9]")
   nombre=$(echo "$validacionNombre" | grep "^[a-z?A-Z?]*$")
@@ -62,6 +72,13 @@ function agruegarUsuario() {
       nombre=$(echo "$validacionNombre" | grep "^[a-z?A-Z?]*$")
     done
   fi
+
+  
+
+
+
+
+
 
   eleccion=$(validacionLogica "¿Crear directorio para el usuario(/home/*)?" "Opción incorrecta ")
 
@@ -81,7 +98,7 @@ while [[ true ]]; do
     case $REPLY in
       1)
       agruegarUsuario
-      #read -p "¿Crear directorio para el usuario? [S/n]" respuesta
+
       break
       ;;
       2)clear
