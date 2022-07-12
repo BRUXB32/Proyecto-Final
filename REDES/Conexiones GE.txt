@@ -1,0 +1,11 @@
+Oficina Central BackBone Galpon Oeste
+2/1                               5/1
+
+Switch 1 GO a PC GO 1
+2/1                 0
+
+Switch 1 GO a PC GO 2
+3/1                 0
+
+Switch 1 GO a Access Point GO
+4/1                         0
