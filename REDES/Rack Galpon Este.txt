@@ -1,0 +1,10 @@
+Switch 1 GE:
+1 FGE Conexion Backbone
+2 GCE 2 PC's
+1 GCE Access Point
+1 FGE Respaldo Backbone
+3 GCE Respaldo PC's y Access Point
+
+Switch 2 GE:
+5 GCE Para Escalabilidad
+5 GCE Para respaldo de la escalabilidad

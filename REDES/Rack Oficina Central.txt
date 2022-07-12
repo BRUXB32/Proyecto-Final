@@ -1,0 +1,20 @@
+Switch 1 OC:
+4 CGE Puertos para las 4 compus
+1 CGE Puerto para el Server
+1 CGE Puerto para el Access Point
+2 FGE Puertos para los backbone
+1 CGE Puerto para el router
+
+Switch 2 OC:
+4 CGE Para respaldo de las PC's
+1 CGE Para respaldo Server
+1 CGE Para respaldo para el Access Point
+2 FGE Para respaldo para los backbone
+1 CGE Para respaldo para el router
+
+Switch 3 OC:
+4 CGE para escalabilidad
+4 CGE para respaldo de la escalabilidad
+1 FGE para escalabilidad
+1 FGE para respaldo de la esaalabilidad
+
