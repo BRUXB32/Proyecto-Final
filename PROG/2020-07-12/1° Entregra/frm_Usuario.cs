@@ -1,0 +1,1003 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace _1__Entregra
+{
+    public partial class frm_Usuario : Form
+    {
+        #region Variables
+        bool Correcto;
+        bool visible1 = true;
+        bool visible2 = true;
+        bool visible3 = true;
+        bool visible4 = true;
+        #endregion
+        #region Metodos
+        static public bool VerificarCedula(String Cedula)
+        {
+            char[] digitos = Cedula.ToCharArray();
+            int Valor = 0;
+            int verificador = 0;
+            if (Cedula.Length == 8)
+            {
+                Valor = ((Convert.ToInt32(digitos[0]) - 48) * 2 + (Convert.ToInt32(digitos[1]) - 48) * 9 + (Convert.ToInt32(digitos[2]) - 48) * 8 + (Convert.ToInt32(digitos[3]) - 48) * 7 + (Convert.ToInt32(digitos[4]) - 48) * 6 + (Convert.ToInt32(digitos[5]) - 48) * 3 + (Convert.ToInt32(digitos[6]) - 48) * 4);
+                while (Convert.ToDouble(Valor) % 10 != 0)
+                {
+                    verificador++;
+                    Valor++;
+                }
+                if (verificador == Convert.ToInt32(digitos[7] - 48))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (Cedula.Length == 7)
+            {
+                Valor = ((Convert.ToInt32(digitos[0]) - 48) * 9 + (Convert.ToInt32(digitos[1]) - 48) * 8 + (Convert.ToInt32(digitos[2]) - 48) * 7 + (Convert.ToInt32(digitos[3]) - 48) * 6 + (Convert.ToInt32(digitos[4]) - 48) * 3 + (Convert.ToInt32(digitos[5]) - 48) * 4);
+                while (Convert.ToDouble(Valor) % 10 != 0)
+                {
+                    verificador++;
+                    Valor++;
+                }
+                if (verificador == Convert.ToInt32(digitos[6] - 48))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+        #endregion
+
+        public frm_Usuario()
+        {
+            InitializeComponent();
+        }
+
+        private void frm_Usuario_Load(object sender, EventArgs e)
+        {
+            cob_Agregar_TipoUsuario.SelectedIndex = 0;
+            cob_Modificar_TipoUsuario.SelectedIndex = 0;
+        }
+
+        #region Agregar
+        private void txt_Agregar_Cedula_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 22)
+            {
+                e.Handled = true;
+                MessageBox.Show("Pegar esta desabilitado", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se admiten datos numéricos", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        private void txt_Agregar_Cedula_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_Agregar_Cedula.TextLength > 0)
+            {
+                pic_Agregar_BorrarCedula.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                pic_Agregar_BorrarCedula.BackColor = System.Drawing.Color.IndianRed;
+            }
+        }
+        private void txt_Agregar_Cedula_Leave(object sender, EventArgs e)
+        {
+            if (!Regex.IsMatch(txt_Agregar_Cedula.Text, "^\\d{8}$") && !Regex.IsMatch(txt_Agregar_Cedula.Text, "^\\d{7}$") && !txt_Agregar_Cedula.Text.Equals(""))
+            {
+                Correcto = false;
+                err_Usuario.SetError(pic_Agregar_BorrarCedula, "Tiene que tener 7 o 8 digitos.");
+            }
+            else if (!VerificarCedula(txt_Agregar_Cedula.Text) && !txt_Agregar_Cedula.Text.Equals(""))
+            {
+                err_Usuario.SetError(pic_Agregar_BorrarCedula, "Ingrese una cedula valida.");
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Agregar_BorrarCedula, "");
+            }
+        }
+
+        private void txt_Agregar_Nombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 22)
+            {
+                e.Handled = true;
+                MessageBox.Show("Pegar esta desabilitado", "validación de nombre", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (char.IsLetter(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (char.IsSeparator(e.KeyChar) && !(txt_Agregar_Nombre.TextLength == 0))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se admiten letras", "validación de nombre", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        private void txt_Agregar_Nombre_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_Agregar_Nombre.TextLength > 0)
+            {
+                pic_Agregar_BorrarNombre.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                pic_Agregar_BorrarNombre.BackColor = System.Drawing.Color.IndianRed;
+            }
+        }
+        private void txt_Agregar_Nombre_Leave(object sender, EventArgs e)
+        {
+            if (!Regex.IsMatch(txt_Agregar_Nombre.Text, "^[a-zA-Z0-9À-ÿ\u00f1\u00d1]+(\\s[a-zA-Z0-9À-ÿ\u00f1\u00d1]+)*$") && !(txt_Agregar_Nombre.Text == ""))
+            {
+                err_Usuario.SetError(pic_Agregar_BorrarNombre, "Ingrese un nombre correcto");
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Agregar_BorrarNombre, "");
+            }
+        }
+
+        private void txt_Agregar_Contraseña_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 22)
+            {
+                e.Handled = true;
+                MessageBox.Show("Pegar esta desabilitado", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (char.IsSeparator(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("No se aceptan espacios", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        private void txt_Agregar_Contraseña_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_Agregar_Contraseña.TextLength > 0)
+            {
+                pic_Agregar_BorrarContraseña.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                pic_Agregar_BorrarContraseña.BackColor = System.Drawing.Color.IndianRed;
+            }
+        }
+        private void txt_Agregar_Contraseña_Leave(object sender, EventArgs e)
+        {
+            if ((!Regex.IsMatch(txt_Agregar_Contraseña.Text, "\\d") | !Regex.IsMatch(txt_Agregar_Contraseña.Text, "[a-zA-ZÀ-ÿ\u00f1\u00d1]") | !Regex.IsMatch(txt_Agregar_Contraseña.Text, "[^0-9a-zA-ZÀ-ÿ\u00f1\u00d1]") | !Regex.IsMatch(txt_Agregar_Contraseña.Text, "\\S{6,20}")) & !txt_Agregar_Contraseña.Text.Equals(""))
+            {
+                err_Usuario.SetError(pic_Agregar_ContraseñaVisible, "Debe tener al menos 6 digitos, conteniendo letras, numeros y simbolos.");
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Agregar_ContraseñaVisible, "");
+            }
+        }
+
+        private void txt_Agregar_Correo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 22)
+            {
+                e.Handled = true;
+                MessageBox.Show("Pegar esta desabilitado", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (!Regex.IsMatch(Convert.ToString(e.KeyChar), "[.@_a-z1-9-]"))
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se aceptan numeros, letras minusculas, \".\", \"@\", \"-\" y \"_\"", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        private void txt_Agregar_Correo_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_Agregar_Correo.TextLength > 0)
+            {
+                pic_Agregar_BorrarCorreo.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                pic_Agregar_BorrarCorreo.BackColor = System.Drawing.Color.IndianRed;
+            }
+        }
+        private void txt_Agregar_Correo_Leave(object sender, EventArgs e)
+        {
+            if (!Regex.IsMatch(txt_Agregar_Correo.Text, "^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$") & !txt_Agregar_Correo.Text.Equals(""))
+            {
+                err_Usuario.SetError(pic_Agregar_BorrarCorreo, "Ingrese un correo valido (de esta forma \"nombre_apellido@gmail.com\")");
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Agregar_BorrarCorreo, "");
+            }
+        }
+
+        private void txt_Agregar_Telefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 22)
+            {
+                e.Handled = true;
+                MessageBox.Show("Pegar esta desabilitado", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se admiten datos numéricos", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        private void txt_Agregar_Telefono_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_Agregar_Telefono.TextLength > 0)
+            {
+                pic_Agregar_BorrarTelefono.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                pic_Agregar_BorrarTelefono.BackColor = System.Drawing.Color.IndianRed;
+            }
+        }
+        private void txt_Agregar_Telefono_Leave(object sender, EventArgs e)
+        {
+            if (!Regex.IsMatch(txt_Agregar_Telefono.Text, "^\\d{9}$") && !txt_Agregar_Telefono.Text.Equals(""))
+            {
+                Correcto = false;
+                err_Usuario.SetError(pic_Agregar_BorrarTelefono, "Tiene que tener 8 digitos.");
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Agregar_BorrarTelefono, "");
+            }
+        }
+
+        private void pic_Agregar_BorrarCedula_Click(object sender, EventArgs e)
+        {
+            err_Usuario.SetError(pic_Agregar_BorrarCedula, "");
+            txt_Agregar_Cedula.Text = "";
+            txt_Agregar_Cedula.Focus();
+            pic_Agregar_BorrarCedula.BackColor = System.Drawing.Color.IndianRed;
+        }
+        private void pic_Agregar_BorrarNombre_Click(object sender, EventArgs e)
+        {
+            txt_Agregar_Nombre.Text = "";
+            txt_Agregar_Nombre.Focus();
+            err_Usuario.SetError(pic_Agregar_BorrarNombre, "");
+            pic_Agregar_BorrarNombre.BackColor = System.Drawing.Color.IndianRed;
+        }
+        private void pic_Agregar_BorrarContraseña_Click(object sender, EventArgs e)
+        {
+            err_Usuario.SetError(pic_Agregar_ContraseñaVisible, "");
+            txt_Agregar_Contraseña.Text = "";
+            txt_Agregar_Contraseña.Focus();
+            pic_Agregar_BorrarContraseña.BackColor = System.Drawing.Color.IndianRed;
+        }
+        private void pic_Agregar_BorrarCorreo_Click(object sender, EventArgs e)
+        {
+            err_Usuario.SetError(pic_Agregar_BorrarCorreo, "");
+            txt_Agregar_Correo.Text = "";
+            txt_Agregar_Correo.Focus();
+            pic_Agregar_BorrarCorreo.BackColor = System.Drawing.Color.IndianRed;
+        }
+        private void pic_Agregar_BorrarTelefono_Click(object sender, EventArgs e)
+        {
+            err_Usuario.SetError(pic_Agregar_BorrarTelefono, "");
+            txt_Agregar_Telefono.Text = "";
+            txt_Agregar_Telefono.Focus();
+            pic_Agregar_BorrarTelefono.BackColor = System.Drawing.Color.IndianRed;
+        }
+
+        private void pic_Agregar_ContraseñaVisible_Click(object sender, EventArgs e)
+        {
+            if (visible1)
+            {
+                txt_Agregar_Contraseña.PasswordChar = '\0';
+                pic_Agregar_ContraseñaVisible.Image = _1__Entregra.Properties.Resources.visibilityOFF;
+                visible1 = false;
+            }
+            else
+            {
+                txt_Agregar_Contraseña.PasswordChar = '*';
+                pic_Agregar_ContraseñaVisible.Image = _1__Entregra.Properties.Resources.visibilityON;
+                visible1 = true;
+            }
+        }
+
+        private void btn_Agregar_Aceptar_Click(object sender, EventArgs e)
+        {
+            Correcto = true;
+            if (!VerificarCedula(txt_Agregar_Cedula.Text))
+            {
+                Correcto = false;
+                if(txt_Agregar_Cedula.Text.Equals(""))
+                err_Usuario.SetError(pic_Agregar_BorrarCedula, "Ingrese una cedula");
+            }
+            if (!Regex.IsMatch(txt_Agregar_Contraseña.Text, "\\d") | !Regex.IsMatch(txt_Agregar_Contraseña.Text, "[a-zA-ZÀ-ÿ\u00f1\u00d1]") | !Regex.IsMatch(txt_Agregar_Contraseña.Text, "[^0-9a-zA-ZÀ-ÿ\u00f1\u00d1]") | !Regex.IsMatch(txt_Agregar_Contraseña.Text, "\\S{6,20}"))
+            {
+                Correcto = false;
+                if(txt_Agregar_Contraseña.Text.Equals(""))
+                err_Usuario.SetError(pic_Agregar_ContraseñaVisible, "Ingrese una contraseña");
+            }
+            if (!Regex.IsMatch(txt_Agregar_Nombre.Text, "^[a-zA-Z0-9À-ÿ\u00f1\u00d1]+(\\s[a-zA-Z0-9À-ÿ\u00f1\u00d1]+)*$"))
+            {
+                Correcto = false;
+                if (txt_Agregar_Nombre.Text.Equals(""))
+                err_Usuario.SetError(pic_Agregar_BorrarNombre, "Ingrese un nombre");
+            }
+            if (!Regex.IsMatch(txt_Agregar_Correo.Text, "^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$") & !txt_Agregar_Correo.Text.Equals(""))
+                Correcto = false;
+            if (!Regex.IsMatch(txt_Agregar_Telefono.Text, "^\\d{9}$") && !txt_Agregar_Telefono.Text.Equals(""))
+                Correcto = false;
+            if (Correcto)
+            {
+                MessageBox.Show("Funciona");
+            }
+        }
+        #endregion
+        #region Borrar
+        private void txt_Borrar_Cedula_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 22)
+            {
+                e.Handled = true;
+                MessageBox.Show("Pegar esta desabilitado", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se admiten datos numéricos", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        private void txt_Borrar_Cedula_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_Borrar_Cedula.TextLength > 0)
+            {
+                pic_Borrar_BorrarCedula.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                pic_Borrar_BorrarCedula.BackColor = System.Drawing.Color.IndianRed;
+            }
+            if (txt_Borrar_Cedula.TextLength == 8)
+            {
+                txt_Borrar_Nombre.Text = "Dylan";
+                txt_Borrar_Contraseña.Text = "1234dylan☺";
+                txt_Borrar_TipoUsuario.Text = "Administrativo";
+            }
+            else
+            {
+                txt_Borrar_Nombre.Text = "";
+                txt_Borrar_Contraseña.Text = "";
+                txt_Borrar_TipoUsuario.Text = "";
+            }
+        }
+        private void txt_Borrar_Cedula_Leave(object sender, EventArgs e)
+        {
+            if (!Regex.IsMatch(txt_Borrar_Cedula.Text, "^\\d{8}$") && !Regex.IsMatch(txt_Borrar_Cedula.Text, "^\\d{7}$") && !txt_Borrar_Cedula.Text.Equals(""))
+            {
+                Correcto = false;
+                err_Usuario.SetError(pic_Borrar_BorrarCedula, "Tiene que tener 8 digitos.");
+            }
+            else if (!VerificarCedula(txt_Borrar_Cedula.Text) && !txt_Borrar_Cedula.Text.Equals(""))
+            {
+                err_Usuario.SetError(pic_Borrar_BorrarCedula, "Ingrese una cedula valida.");
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Borrar_BorrarCedula, "");
+            }
+        }
+
+        private void pic_Borrar_BorrarCedula_Click(object sender, EventArgs e)
+        {
+            err_Usuario.SetError(pic_Borrar_BorrarCedula, "");
+            txt_Borrar_Cedula.Text = "";
+            txt_Borrar_Nombre.Text = "";
+            txt_Borrar_Contraseña.Text = "";
+            txt_Borrar_TipoUsuario.Text = "";
+            txt_Borrar_Cedula.Focus();
+            pic_Borrar_BorrarCedula.BackColor = System.Drawing.Color.IndianRed;
+        }
+
+        private void pic_Borrar_ContraseñaVisible_Click(object sender, EventArgs e)
+        {
+            if (visible2)
+            {
+                txt_Borrar_Contraseña.PasswordChar = '\0';
+                pic_Borrar_ContraseñaVisible.Image = _1__Entregra.Properties.Resources.visibilityOFF;
+                visible2 = false;
+            }
+            else
+            {
+                txt_Borrar_Contraseña.PasswordChar = '*';
+                pic_Borrar_ContraseñaVisible.Image = _1__Entregra.Properties.Resources.visibilityON;
+                visible2 = true;
+            }
+        }
+
+        private void btn_Borrar_Aceptar_Click(object sender, EventArgs e)
+        {
+            if (!VerificarCedula(txt_Borrar_Cedula.Text))
+            {
+                if (txt_Borrar_Cedula.Text.Equals(""))
+                    err_Usuario.SetError(pic_Borrar_BorrarCedula, "Ingrese una cedula");
+                txt_Borrar_Cedula.Focus();
+            }
+            else
+            {
+                txt_Borrar_Cedula.Text = "";
+                MessageBox.Show("Funciona");
+            }
+        }
+        #endregion
+        #region Modificar
+        private void txt_Modificar_Cedula_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 22)
+            {
+                e.Handled = true;
+                MessageBox.Show("Pegar esta desabilitado", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se admiten datos numéricos", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        private void txt_Modificar_Cedula_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_Modificar_Cedula.TextLength > 0)
+            {
+                pic_Modificar_BorrarCedula.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                pic_Modificar_BorrarCedula.BackColor = System.Drawing.Color.IndianRed;
+            }
+            if (txt_Modificar_Cedula.TextLength == 8)
+            {
+                txt_Modificar_Nombre.Text = "Dylan";
+                txt_Modificar_Contraseña.Text = "1234dylan☺";
+                cob_Modificar_TipoUsuario.SelectedIndex = 0;
+                pic_Modificar_BorrarNombre.BackColor = System.Drawing.Color.Firebrick;
+                pic_Modificar_BorrarContraseña.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+
+                txt_Modificar_Nombre.Text = "";
+                txt_Modificar_Contraseña.Text = "";
+                cob_Modificar_TipoUsuario.SelectedIndex = 0;
+                pic_Modificar_BorrarNombre.BackColor = System.Drawing.Color.IndianRed;
+                pic_Modificar_BorrarContraseña.BackColor = System.Drawing.Color.IndianRed;
+            }
+            err_Usuario.SetError(pic_Modificar_BorrarNombre, "");
+            err_Usuario.SetError(pic_Modificar_ContraseñaVisible, "");
+        }
+        private void txt_Modificar_Cedula_Leave(object sender, EventArgs e)
+        {
+            if (!Regex.IsMatch(txt_Modificar_Cedula.Text, "^\\d{8}$") && !Regex.IsMatch(txt_Modificar_Cedula.Text, "^\\d{7}$") && !txt_Modificar_Cedula.Text.Equals(""))
+            {
+                Correcto = false;
+                err_Usuario.SetError(pic_Modificar_BorrarCedula, "Tiene que tener 8 digitos.");
+            }
+            else if (!VerificarCedula(txt_Modificar_Cedula.Text) && !txt_Modificar_Cedula.Text.Equals(""))
+            {
+                err_Usuario.SetError(pic_Modificar_BorrarCedula, "Ingrese una cedula valida.");
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Modificar_BorrarCedula, "");
+            }
+        }
+
+        private void txt_Modificar_Nombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 22)
+            {
+                e.Handled = true;
+                MessageBox.Show("Pegar esta desabilitado", "validación de nombre", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (char.IsLetter(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (char.IsSeparator(e.KeyChar) && !(txt_Modificar_Nombre.TextLength == 0))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se admiten letras", "validación de nombre", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        private void txt_Modificar_Nombre_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_Modificar_Nombre.TextLength > 0)
+            {
+                pic_Modificar_BorrarNombre.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                pic_Modificar_BorrarNombre.BackColor = System.Drawing.Color.IndianRed;
+            }
+        }
+        private void txt_Modificar_Nombre_Leave(object sender, EventArgs e)
+        {
+            if (!Regex.IsMatch(txt_Modificar_Nombre.Text, "^[a-zA-Z0-9À-ÿ\u00f1\u00d1]+(\\s[a-zA-Z0-9À-ÿ\u00f1\u00d1]+)*$") && !(txt_Modificar_Nombre.Text == ""))
+            {
+                err_Usuario.SetError(pic_Modificar_BorrarNombre, "Ingrese un nombre correcto");
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Modificar_BorrarNombre, "");
+            }
+        }
+
+        private void txt_Modificar_Contraseña_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 22)
+            {
+                e.Handled = true;
+                MessageBox.Show("Pegar esta desabilitado", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (char.IsSeparator(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("No se aceptan espacios", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        private void txt_Modificar_Contraseña_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_Modificar_Contraseña.TextLength > 0)
+            {
+                pic_Modificar_BorrarContraseña.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                pic_Modificar_BorrarContraseña.BackColor = System.Drawing.Color.IndianRed;
+            }
+        }
+        private void txt_Modificar_Contraseña_Leave(object sender, EventArgs e)
+        {
+            if ((!Regex.IsMatch(txt_Modificar_Contraseña.Text, "\\d") | !Regex.IsMatch(txt_Modificar_Contraseña.Text, "[a-zA-ZÀ-ÿ\u00f1\u00d1]") | !Regex.IsMatch(txt_Modificar_Contraseña.Text, "[^0-9a-zA-ZÀ-ÿ\u00f1\u00d1]") | !Regex.IsMatch(txt_Modificar_Contraseña.Text, "\\S{6,20}")) & !txt_Modificar_Contraseña.Text.Equals(""))
+            {
+                err_Usuario.SetError(pic_Modificar_ContraseñaVisible, "Debe tener al menos 6 digitos, conteniendo letras, numeros y simbolos.");
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Modificar_ContraseñaVisible, "");
+            }
+        }
+
+        private void txt_Modificar_Correo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 22)
+            {
+                e.Handled = true;
+                MessageBox.Show("Pegar esta desabilitado", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (!Regex.IsMatch(Convert.ToString(e.KeyChar), "[.@_a-z1-9-]"))
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se aceptan numeros, letras minusculas, \".\", \"@\", \"-\" y \"_\"", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        private void txt_Modificar_Correo_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_Modificar_Correo.TextLength > 0)
+            {
+                pic_Modificar_BorrarCorreo.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                pic_Modificar_BorrarCorreo.BackColor = System.Drawing.Color.IndianRed;
+            }
+        }
+        private void txt_Modificar_Correo_Leave(object sender, EventArgs e)
+        {
+            if (!Regex.IsMatch(txt_Modificar_Correo.Text, "^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$") & !txt_Modificar_Correo.Text.Equals(""))
+            {
+                err_Usuario.SetError(pic_Modificar_BorrarCorreo, "Ingrese un correo valido (de esta forma \"nombre_apellido@gmail.com\")");
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Modificar_BorrarCorreo, "");
+            }
+        }
+
+        private void txt_Modificar_Telefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 22)
+            {
+                e.Handled = true;
+                MessageBox.Show("Pegar esta desabilitado", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se admiten datos numéricos", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        private void txt_Modificar_Telefono_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_Modificar_Telefono.TextLength > 0)
+            {
+                pic_Modificar_BorrarTelefono.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                pic_Modificar_BorrarTelefono.BackColor = System.Drawing.Color.IndianRed;
+            }
+        }
+        private void txt_Modificar_Telefono_Leave(object sender, EventArgs e)
+        {
+            if (!Regex.IsMatch(txt_Modificar_Telefono.Text, "^\\d{9}$") && !txt_Modificar_Telefono.Text.Equals(""))
+            {
+                Correcto = false;
+                err_Usuario.SetError(pic_Modificar_BorrarTelefono, "Tiene que tener 8 digitos.");
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Modificar_BorrarTelefono, "");
+            }
+        }
+
+        private void pic_Modificar_BorrarCedula_Click(object sender, EventArgs e)
+        {
+            err_Usuario.SetError(pic_Modificar_BorrarCedula, "");
+            err_Usuario.SetError(pic_Modificar_BorrarNombre, "");
+            err_Usuario.SetError(pic_Modificar_ContraseñaVisible, "");
+            txt_Modificar_Cedula.Text = "";
+            txt_Modificar_Nombre.Text = "";
+            txt_Modificar_Contraseña.Text = "";
+            cob_Modificar_TipoUsuario.SelectedIndex = 0;
+            txt_Modificar_Cedula.Focus();
+            pic_Modificar_BorrarCedula.BackColor = System.Drawing.Color.IndianRed;
+            pic_Modificar_BorrarNombre.BackColor = System.Drawing.Color.IndianRed;
+            pic_Modificar_BorrarContraseña.BackColor = System.Drawing.Color.IndianRed;
+        }
+        private void pic_Modificar_BorrarNombre_Click(object sender, EventArgs e)
+        {
+            err_Usuario.SetError(pic_Modificar_BorrarNombre, "");
+            txt_Modificar_Nombre.Text = "";
+            txt_Modificar_Nombre.Focus();
+            pic_Modificar_BorrarNombre.BackColor = System.Drawing.Color.IndianRed;
+        }
+        private void pic_Modificar_BorrarContraseña_Click(object sender, EventArgs e)
+        {
+            err_Usuario.SetError(pic_Modificar_ContraseñaVisible, "");
+            txt_Modificar_Contraseña.Text = "";
+            txt_Modificar_Contraseña.Focus();
+            pic_Modificar_BorrarContraseña.BackColor = System.Drawing.Color.IndianRed;
+        }
+        private void pic_Modificar_BorrarCorreo_Click(object sender, EventArgs e)
+        {
+            err_Usuario.SetError(pic_Modificar_BorrarCorreo, "");
+            txt_Modificar_Correo.Text = "";
+            txt_Modificar_Correo.Focus();
+            pic_Modificar_BorrarCorreo.BackColor = System.Drawing.Color.IndianRed;
+        }
+        private void pic_Modificar_BorrarTelefono_Click(object sender, EventArgs e)
+        {
+            err_Usuario.SetError(pic_Modificar_BorrarTelefono, "");
+            txt_Modificar_Telefono.Text = "";
+            txt_Modificar_Telefono.Focus();
+            pic_Modificar_BorrarTelefono.BackColor = System.Drawing.Color.IndianRed;
+        }
+
+        private void pic_ResetearNombre_Click(object sender, EventArgs e)
+        {
+            if (txt_Modificar_Cedula.TextLength == 8)
+            {
+                err_Usuario.SetError(pic_Modificar_BorrarNombre, "");
+                txt_Modificar_Nombre.Text = "Dylan";
+                pic_Modificar_BorrarNombre.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Modificar_BorrarNombre, "");
+                txt_Modificar_Nombre.Text = "";
+                pic_Modificar_BorrarNombre.BackColor = System.Drawing.Color.IndianRed;
+            }
+        }
+        private void pic_ResetearContraseña_Click(object sender, EventArgs e)
+        {
+            if (txt_Modificar_Cedula.TextLength == 8)
+            {
+                err_Usuario.SetError(pic_Modificar_ContraseñaVisible, "");
+                txt_Modificar_Contraseña.Text = "1234dylan☺";
+                pic_Modificar_BorrarContraseña.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Modificar_ContraseñaVisible, "");
+                txt_Modificar_Contraseña.Text = "";
+                pic_Modificar_BorrarContraseña.BackColor = System.Drawing.Color.IndianRed;
+            }
+        }
+        private void pic_ResetearTipoUsuario_Click(object sender, EventArgs e)
+        {
+            if (txt_Modificar_Cedula.TextLength == 8)
+            {
+                cob_Modificar_TipoUsuario.SelectedIndex = 0;
+            }
+            else
+            {
+                cob_Modificar_TipoUsuario.SelectedIndex = 0;
+            }
+        }
+        private void pic_ResetearCorreo_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void pic_ResetearTelefono_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pic_Modificar_ContraseñaVisible_Click(object sender, EventArgs e)
+        {
+            if (visible3)
+            {
+                txt_Modificar_Contraseña.PasswordChar = '\0';
+                pic_Modificar_ContraseñaVisible.Image = _1__Entregra.Properties.Resources.visibilityOFF;
+                visible3 = false;
+            }
+            else
+            {
+                txt_Modificar_Contraseña.PasswordChar = '*';
+                pic_Modificar_ContraseñaVisible.Image = _1__Entregra.Properties.Resources.visibilityON;
+                visible3 = true;
+            }
+        }
+
+        private void btn_Modificar_Aceptar_Click(object sender, EventArgs e)
+        {
+            Correcto = true;
+            if (!VerificarCedula(txt_Modificar_Cedula.Text))
+            {
+                Correcto = false;
+                if (txt_Modificar_Cedula.Text.Equals(""))
+                    err_Usuario.SetError(pic_Modificar_BorrarCedula, "Ingrese una cedula");
+            }
+            if (!Regex.IsMatch(txt_Modificar_Contraseña.Text, "\\d") | !Regex.IsMatch(txt_Modificar_Contraseña.Text, "[a-zA-ZÀ-ÿ\u00f1\u00d1]") | !Regex.IsMatch(txt_Modificar_Contraseña.Text, "[^0-9a-zA-ZÀ-ÿ\u00f1\u00d1]") | !Regex.IsMatch(txt_Modificar_Contraseña.Text, "\\S{6,20}"))
+            {
+                Correcto = false;
+                if (txt_Modificar_Contraseña.Text.Equals(""))
+                    err_Usuario.SetError(pic_Modificar_ContraseñaVisible, "Ingrese una contraseña");
+            }
+            if (!Regex.IsMatch(txt_Modificar_Nombre.Text, "^[a-zA-Z0-9À-ÿ\u00f1\u00d1]+(\\s[a-zA-Z0-9À-ÿ\u00f1\u00d1]+)*$"))
+            {
+                Correcto = false;
+                if (txt_Modificar_Nombre.Text.Equals(""))
+                    err_Usuario.SetError(pic_Modificar_BorrarNombre, "Ingrese un nombre");
+            }
+            if (Correcto)
+            {
+                MessageBox.Show("Funciona");
+            }
+        }
+        #endregion
+        #region Listar
+        private void txt_Listar_Cedula_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 22)
+            {
+                e.Handled = true;
+                MessageBox.Show("Pegar esta desabilitado", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se admiten datos numéricos", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        private void txt_Listar_Cedula_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_Listar_Cedula.TextLength > 0)
+            {
+                pic_Listar_BorrarCedula.BackColor = System.Drawing.Color.Firebrick;
+            }
+            else
+            {
+                pic_Listar_BorrarCedula.BackColor = System.Drawing.Color.IndianRed;
+            }
+            if (txt_Listar_Cedula.TextLength == 8)
+            {
+                txt_Listar_Nombre.Text = "Dylan";
+                txt_Listar_Contraseña.Text = "1234dylan☺";
+                txt_Listar_TipoUsuario.Text = "Administrativo";
+            }
+            else
+            {
+                txt_Listar_Nombre.Text = "";
+                txt_Listar_Contraseña.Text = "";
+                txt_Listar_TipoUsuario.Text = "";
+            }
+        }
+        private void txt_Listar_Cedula_Leave(object sender, EventArgs e)
+        {
+            if (!Regex.IsMatch(txt_Listar_Cedula.Text, "^\\d{8}$") && !Regex.IsMatch(txt_Listar_Cedula.Text, "^\\d{7}$") && !txt_Listar_Cedula.Text.Equals(""))
+            {
+                err_Usuario.SetError(pic_Listar_BorrarCedula, "Tiene que tener 8 digitos.");
+            }
+            else if (!frm_Usuario.VerificarCedula(txt_Listar_Cedula.Text) && !txt_Listar_Cedula.Text.Equals(""))
+            {
+                err_Usuario.SetError(pic_Listar_BorrarCedula, "Ingrese una cedula valida.");
+            }
+            else
+            {
+                err_Usuario.SetError(pic_Listar_BorrarCedula, "");
+            }
+        }
+
+        private void pic_Listar_BorrarCedula_Click(object sender, EventArgs e)
+        {
+            err_Usuario.SetError(pic_Listar_BorrarCedula, "");
+            txt_Listar_Cedula.Text = "";
+            txt_Listar_Nombre.Text = "";
+            txt_Listar_Contraseña.Text = "";
+            txt_Listar_TipoUsuario.Text = "";
+            txt_Listar_Cedula.Focus();
+            pic_Listar_BorrarCedula.BackColor = System.Drawing.Color.IndianRed;
+            dgv_Listar.Rows.Clear();
+        }
+
+        private void pic_Listar_ContraseñaVisible_Click(object sender, EventArgs e)
+        {
+            if (visible4)
+            {
+                txt_Listar_Contraseña.PasswordChar = '\0';
+                pic_Listar_ContraseñaVisible.Image = _1__Entregra.Properties.Resources.visibilityOFF;
+                visible4 = false;
+            }
+            else
+            {
+                txt_Listar_Contraseña.PasswordChar = '*';
+                pic_Listar_ContraseñaVisible.Image = _1__Entregra.Properties.Resources.visibilityON;
+                visible4 = true;
+            }
+        }
+
+        private void btn_Listar_Modificar_Click(object sender, EventArgs e)
+        {
+            if (!frm_Usuario.VerificarCedula(txt_Listar_Cedula.Text))
+            {
+                if (txt_Listar_Cedula.Text.Equals(""))
+                    err_Usuario.SetError(pic_Listar_BorrarCedula, "Ingrese una cedula");
+                txt_Listar_Cedula.Focus();
+            }
+            else
+            {
+                txt_Modificar_Cedula.Text = txt_Listar_Cedula.Text;
+                tab_Usuario.SelectedTab = tp_Modificar;
+                pic_Modificar_BorrarCedula.BackColor = System.Drawing.Color.Firebrick;
+                txt_Listar_Cedula.Text = "";
+            }
+        }
+        private void btn_Listar_Borrar_Click(object sender, EventArgs e)
+        {
+            if (!frm_Usuario.VerificarCedula(txt_Listar_Cedula.Text))
+            {
+                if (txt_Listar_Cedula.Text.Equals(""))
+                    err_Usuario.SetError(pic_Listar_BorrarCedula, "Ingrese una cedula");
+                txt_Listar_Cedula.Focus();
+            }
+            else
+            {
+                txt_Borrar_Cedula.Text = txt_Listar_Cedula.Text;
+                tab_Usuario.SelectedTab = tp_Borrar;
+                pic_Borrar_BorrarCedula.BackColor = System.Drawing.Color.Firebrick;
+                txt_Listar_Cedula.Text = "";
+            }
+        }
+        #endregion
+
+        private void tsmi_Cedula_Click(object sender, EventArgs e)
+        {
+            lbl_Listar_Cedula.Text = "Cedula:";
+            dgv_Listar.Visible = false;
+            btn_Listar_Borrar.Visible = true;
+            btn_Listar_Modificar.Visible = true;
+        }
+        private void tsmi_Nombre_Click(object sender, EventArgs e)
+        {
+            lbl_Listar_Cedula.Text = "Nombre:";
+            dgv_Listar.Visible = true;
+            btn_Listar_Borrar.Visible = false;
+            btn_Listar_Modificar.Visible = false;
+        }
+        private void tsmi_Correo_Click(object sender, EventArgs e)
+        {
+            lbl_Listar_Cedula.Text = "Correo:";
+            dgv_Listar.Visible = true;
+            btn_Listar_Borrar.Visible = false;
+            btn_Listar_Modificar.Visible = false;
+        }
+    }
+}
