@@ -56,6 +56,8 @@ function validarRuta() {
 }
 
 function agruegarUsuario() {
+  directorio="1"
+  comentario="Sin comentario"
   #Ingreso del nombre del nuevo usuario
   validacionNombre=$(validarNombre "Ingrese un nombre para el nuevo usuario: ")
   validacion=$(echo "$validacionNombre" | grep "[0-9]")
@@ -73,21 +75,38 @@ function agruegarUsuario() {
     done
   fi
 
-  
-
-
-
-
-
-
   eleccion=$(validacionLogica "¿Crear directorio para el usuario(/home/*)?" "Opción incorrecta ")
 
   if [[ "$eleccion" == "0" ]]; then
     #statements
-    echo "Se creara carpeta para el usuario, tomara el mismo nombre de usuario"
+    echo "Se creara carpeta para el usuario en /home/$nombre"
+    directorio="0"
   else
     echo "No se creara carpeta para el usuario"
   fi
+
+
+  eleccion=$(validacionLogica "¿Agruegar comentario al usuario?" "Opción incorrecta")
+
+  if [[ "$eleccion" == "0" ]]; then
+    #statements
+    read -p "Ingrese el comentario: " comentario
+    echo "Se agruegara el comentario al usuario."
+  else
+    echo "No se agruegara un comentario al usuario."
+  fi
+
+  if [[ "$directorio" == "0" ]]; then
+    sudo useradd -d "$directorio" -m -c "$comentario" -s "/bin/bash" "$nombre"
+    echo "Ingrese contraseña del usuario."
+    sudo passwd $nombre
+  else
+    sudo useradd -c "$comentario" -s "/bin/bash" "$nombre"
+    echo "Ingrese contraseña del usuario."
+    sudo passwd $nombre
+  fi
+
+
 
 }
 
@@ -118,8 +137,15 @@ while [[ true ]]; do
       break
       ;;
       3)clear
-      validarNombre "Ingrese un nombre para el nuevo usuario: "
-      echo "$nombre"
+      read -p "Ingrese nombre de usuario a eliminar: " usuario
+      consulta=$(cat /etc/passwd | grep "$usuario" | cut -d: -f1)
+
+      if [[ "$usuario" == "$consulta" ]]; then
+        sudo userdel -r "$consulta"
+      else
+        echo "El usuario no existe"
+      fi
+
       break
       ;;
       4)exit
