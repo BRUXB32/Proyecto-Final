@@ -85,7 +85,6 @@ function agruegarUsuario() {
     echo "No se creara carpeta para el usuario"
   fi
 
-
   eleccion=$(validacionLogica "¿Agruegar comentario al usuario?" "Opción incorrecta")
 
   if [[ "$eleccion" == "0" ]]; then
@@ -105,9 +104,6 @@ function agruegarUsuario() {
     echo "Ingrese contraseña del usuario."
     sudo passwd $nombre
   fi
-
-
-
 }
 
 ############ Menú principal ############
@@ -121,22 +117,6 @@ while [[ true ]]; do
       break
       ;;
       2)clear
-      echo "Opcion 2"
-      exp="^[a-z?A-Z]*$"
-      read -p "Ingrese un nombre: " nombre
-        if [[ "$nombre" =~ ^[a-z?A-Z]+$ ]]; then
-          echo "Verdadero"
-        else
-          echo "Falso"
-        fi
-        if [[ "$nombre" =~ $exp ]]; then
-          echo "Verdadero"
-        else
-          echo "Falso"
-        fi
-      break
-      ;;
-      3)clear
       read -p "Ingrese nombre de usuario a eliminar: " usuario
       consulta=$(cat /etc/passwd | grep "$usuario" | cut -d: -f1)
 
@@ -145,6 +125,10 @@ while [[ true ]]; do
       else
         echo "El usuario no existe"
       fi
+      break
+      ;;
+      3)clear
+
 
       break
       ;;
