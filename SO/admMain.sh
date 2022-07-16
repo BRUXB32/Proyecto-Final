@@ -96,7 +96,7 @@ function agruegarUsuario() {
   fi
 
   if [[ "$directorio" == "0" ]]; then
-    sudo useradd -d "$directorio" -m -c "$comentario" -s "/bin/bash" "$nombre"
+    sudo useradd -d "/home/$nombre" -m -c "$comentario" -s "/bin/bash" "$nombre"
     echo "Ingrese contraseña del usuario."
     sudo passwd $nombre
   else
@@ -121,15 +121,14 @@ while [[ true ]]; do
       consulta=$(cat /etc/passwd | grep "$usuario" | cut -d: -f1)
 
       if [[ "$usuario" == "$consulta" ]]; then
-        sudo userdel -r "$consulta"
+        sudo userdel -r -f "$consulta" 2> .temp.txt
+        rm .temp.txt
       else
         echo "El usuario no existe"
       fi
       break
       ;;
       3)clear
-
-
       break
       ;;
       4)exit
