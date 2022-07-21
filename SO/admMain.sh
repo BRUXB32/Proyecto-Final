@@ -179,10 +179,11 @@ function modificarUsuario(){
       break
       ;;
       3)
-
+      sudo passwd "$usuario"
       break
       ;;
       4)
+      #Salir de la modificación de usuario
       clear
       break
       ;;
