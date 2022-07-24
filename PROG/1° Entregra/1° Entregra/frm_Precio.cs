@@ -17,44 +17,20 @@ namespace _1__Entregra
             InitializeComponent();
         }
 
-        private void pic_BorrarCedula_Click(object sender, EventArgs e)
-        {
-            nud_Precio.Value=5.00m;
-        }
-
         private void frm_Precio_Load(object sender, EventArgs e)
         {
             cob_Producto.SelectedIndex = 0;
-            nud_Precio.Value=5.00m;
-        }
-
-        private void nud_Precio_ValueChanged(object sender, EventArgs e)
-        {
-            if (nud_Precio.Value == 5.00m)
-            {
-                pic_ResetearPrecio.BackColor = System.Drawing.Color.IndianRed;
-            }
-            else
-            {
-               pic_ResetearPrecio.BackColor = System.Drawing.Color.Firebrick;
-            }
-        }
-
-        private void nud_Precio_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (nud_Precio.Value == 5.00m)
-            {
-                pic_ResetearPrecio.BackColor = System.Drawing.Color.IndianRed;
-            }
-            else
-            {
-                pic_ResetearPrecio.BackColor = System.Drawing.Color.Firebrick;
-            }
+            nud_Precio.Value = 5.00m;
         }
 
         private void pic_ResetearPrecio_Click(object sender, EventArgs e)
         {
             nud_Precio.Value = 5.00m;
+        }
+
+        private void btn_Cambiar_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Funciona");
         }
     }
 }

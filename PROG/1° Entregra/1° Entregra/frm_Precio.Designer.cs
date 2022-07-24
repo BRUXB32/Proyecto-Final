@@ -28,34 +28,61 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel_Fondo = new System.Windows.Forms.Panel();
+            this.components = new System.ComponentModel.Container();
+            this.pnl_Fondo = new System.Windows.Forms.Panel();
+            this.pic_ResetearPrecio = new System.Windows.Forms.PictureBox();
+            this.btn_Cambiar = new System.Windows.Forms.Button();
             this.cob_Producto = new System.Windows.Forms.ComboBox();
             this.lbl_Producto = new System.Windows.Forms.Label();
             this.nud_Precio = new System.Windows.Forms.NumericUpDown();
             this.lbl_Precio = new System.Windows.Forms.Label();
             this.lbl_Titulo = new System.Windows.Forms.Label();
-            this.btn_Cambiar = new System.Windows.Forms.Button();
-            this.pic_ResetearPrecio = new System.Windows.Forms.PictureBox();
-            this.panel_Fondo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Precio)).BeginInit();
+            this.cmd_Precio = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.pnl_Fondo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_ResetearPrecio)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Precio)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel_Fondo
+            // pnl_Fondo
             // 
-            this.panel_Fondo.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel_Fondo.Controls.Add(this.pic_ResetearPrecio);
-            this.panel_Fondo.Controls.Add(this.btn_Cambiar);
-            this.panel_Fondo.Controls.Add(this.cob_Producto);
-            this.panel_Fondo.Controls.Add(this.lbl_Producto);
-            this.panel_Fondo.Controls.Add(this.nud_Precio);
-            this.panel_Fondo.Controls.Add(this.lbl_Precio);
-            this.panel_Fondo.Controls.Add(this.lbl_Titulo);
-            this.panel_Fondo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_Fondo.Location = new System.Drawing.Point(0, 0);
-            this.panel_Fondo.Name = "panel_Fondo";
-            this.panel_Fondo.Size = new System.Drawing.Size(800, 450);
-            this.panel_Fondo.TabIndex = 0;
+            this.pnl_Fondo.BackColor = System.Drawing.SystemColors.Control;
+            this.pnl_Fondo.Controls.Add(this.pic_ResetearPrecio);
+            this.pnl_Fondo.Controls.Add(this.btn_Cambiar);
+            this.pnl_Fondo.Controls.Add(this.cob_Producto);
+            this.pnl_Fondo.Controls.Add(this.lbl_Producto);
+            this.pnl_Fondo.Controls.Add(this.nud_Precio);
+            this.pnl_Fondo.Controls.Add(this.lbl_Precio);
+            this.pnl_Fondo.Controls.Add(this.lbl_Titulo);
+            this.pnl_Fondo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnl_Fondo.Location = new System.Drawing.Point(0, 0);
+            this.pnl_Fondo.Name = "pnl_Fondo";
+            this.pnl_Fondo.Size = new System.Drawing.Size(800, 450);
+            this.pnl_Fondo.TabIndex = 0;
+            // 
+            // pic_ResetearPrecio
+            // 
+            this.pic_ResetearPrecio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pic_ResetearPrecio.BackColor = System.Drawing.Color.Transparent;
+            this.pic_ResetearPrecio.Image = global::_1__Entregra.Properties.Resources.restart;
+            this.pic_ResetearPrecio.Location = new System.Drawing.Point(564, 163);
+            this.pic_ResetearPrecio.Name = "pic_ResetearPrecio";
+            this.pic_ResetearPrecio.Size = new System.Drawing.Size(31, 31);
+            this.pic_ResetearPrecio.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pic_ResetearPrecio.TabIndex = 20;
+            this.pic_ResetearPrecio.TabStop = false;
+            this.pic_ResetearPrecio.Click += new System.EventHandler(this.pic_ResetearPrecio_Click);
+            // 
+            // btn_Cambiar
+            // 
+            this.btn_Cambiar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_Cambiar.Font = new System.Drawing.Font("Georgia", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Cambiar.Location = new System.Drawing.Point(333, 204);
+            this.btn_Cambiar.Name = "btn_Cambiar";
+            this.btn_Cambiar.Size = new System.Drawing.Size(126, 43);
+            this.btn_Cambiar.TabIndex = 19;
+            this.btn_Cambiar.Text = "Cambiar";
+            this.btn_Cambiar.UseVisualStyleBackColor = true;
+            this.btn_Cambiar.Click += new System.EventHandler(this.btn_Cambiar_Click);
             // 
             // cob_Producto
             // 
@@ -69,7 +96,16 @@
             "Cebada",
             "Manzanas",
             "Naranjas",
-            "Limones"});
+            "Limones",
+            "Semilla papas rosadas",
+            "Semilla zapallo criollo",
+            "Semilla trigo",
+            "Semilla cebada",
+            "Plantines manzanas",
+            "Plantines naranjas",
+            "Plantines limones",
+            "Fertilizante",
+            "Pesticida"});
             this.cob_Producto.Location = new System.Drawing.Point(310, 120);
             this.cob_Producto.Name = "cob_Producto";
             this.cob_Producto.Size = new System.Drawing.Size(257, 33);
@@ -88,6 +124,7 @@
             // 
             // nud_Precio
             // 
+            this.nud_Precio.ContextMenuStrip = this.cmd_Precio;
             this.nud_Precio.DecimalPlaces = 2;
             this.nud_Precio.Font = new System.Drawing.Font("Georgia", 15.75F, System.Drawing.FontStyle.Bold);
             this.nud_Precio.Increment = new decimal(new int[] {
@@ -114,8 +151,6 @@
             0,
             0,
             131072});
-            this.nud_Precio.ValueChanged += new System.EventHandler(this.nud_Precio_ValueChanged);
-            this.nud_Precio.KeyUp += new System.Windows.Forms.KeyEventHandler(this.nud_Precio_KeyUp);
             // 
             // lbl_Precio
             // 
@@ -132,58 +167,39 @@
             // 
             this.lbl_Titulo.AutoSize = true;
             this.lbl_Titulo.Font = new System.Drawing.Font("Georgia", 26.25F, System.Drawing.FontStyle.Bold);
-            this.lbl_Titulo.Location = new System.Drawing.Point(318, 30);
+            this.lbl_Titulo.Location = new System.Drawing.Point(329, 30);
             this.lbl_Titulo.Name = "lbl_Titulo";
             this.lbl_Titulo.Size = new System.Drawing.Size(134, 41);
             this.lbl_Titulo.TabIndex = 12;
             this.lbl_Titulo.Text = "Precio";
             // 
-            // btn_Cambiar
+            // cmd_Precio
             // 
-            this.btn_Cambiar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_Cambiar.Font = new System.Drawing.Font("Georgia", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Cambiar.Location = new System.Drawing.Point(441, 200);
-            this.btn_Cambiar.Name = "btn_Cambiar";
-            this.btn_Cambiar.Size = new System.Drawing.Size(126, 43);
-            this.btn_Cambiar.TabIndex = 19;
-            this.btn_Cambiar.Text = "Cambiar";
-            this.btn_Cambiar.UseVisualStyleBackColor = true;
-            // 
-            // pic_ResetearPrecio
-            // 
-            this.pic_ResetearPrecio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pic_ResetearPrecio.BackColor = System.Drawing.Color.IndianRed;
-            this.pic_ResetearPrecio.Image = global::_1__Entregra.Properties.Resources.Close;
-            this.pic_ResetearPrecio.Location = new System.Drawing.Point(564, 163);
-            this.pic_ResetearPrecio.Name = "pic_ResetearPrecio";
-            this.pic_ResetearPrecio.Size = new System.Drawing.Size(31, 31);
-            this.pic_ResetearPrecio.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pic_ResetearPrecio.TabIndex = 20;
-            this.pic_ResetearPrecio.TabStop = false;
-            this.pic_ResetearPrecio.Click += new System.EventHandler(this.pic_ResetearPrecio_Click);
+            this.cmd_Precio.Name = "cmd_Usuario";
+            this.cmd_Precio.Size = new System.Drawing.Size(61, 4);
             // 
             // frm_Precio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.panel_Fondo);
+            this.Controls.Add(this.pnl_Fondo);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frm_Precio";
             this.Text = "frm_Precio";
             this.Load += new System.EventHandler(this.frm_Precio_Load);
-            this.panel_Fondo.ResumeLayout(false);
-            this.panel_Fondo.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Precio)).EndInit();
+            this.pnl_Fondo.ResumeLayout(false);
+            this.pnl_Fondo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_ResetearPrecio)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Precio)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel panel_Fondo;
+        private System.Windows.Forms.Panel pnl_Fondo;
         private System.Windows.Forms.ComboBox cob_Producto;
         private System.Windows.Forms.Label lbl_Producto;
         private System.Windows.Forms.NumericUpDown nud_Precio;
@@ -191,5 +207,6 @@
         private System.Windows.Forms.Label lbl_Titulo;
         private System.Windows.Forms.Button btn_Cambiar;
         private System.Windows.Forms.PictureBox pic_ResetearPrecio;
+        private System.Windows.Forms.ContextMenuStrip cmd_Precio;
     }
 }

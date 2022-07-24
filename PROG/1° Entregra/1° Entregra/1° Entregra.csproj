@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,17 +47,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class_Metodos.cs" />
     <Compile Include="frm_Base.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frm_Base.Designer.cs">
       <DependentUpon>frm_Base.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm_Comercio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_Comercio.Designer.cs">
+      <DependentUpon>frm_Comercio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_Datos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_Datos.Designer.cs">
+      <DependentUpon>frm_Datos.cs</DependentUpon>
+    </Compile>
     <Compile Include="frm_Precio.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frm_Precio.Designer.cs">
       <DependentUpon>frm_Precio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_Predio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_Predio.Designer.cs">
+      <DependentUpon>frm_Predio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_Usuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_Usuario.Designer.cs">
+      <DependentUpon>frm_Usuario.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,26 +92,23 @@
     <Compile Include="frm_Producción.Designer.cs">
       <DependentUpon>frm_Producción.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm_Compra.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frm_Compra.Designer.cs">
-      <DependentUpon>frm_Compra.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frm_Venta.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frm_Venta.Designer.cs">
-      <DependentUpon>frm_Venta.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="frm_Base.resx">
       <DependentUpon>frm_Base.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_Comercio.resx">
+      <DependentUpon>frm_Comercio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_Datos.resx">
+      <DependentUpon>frm_Datos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_Precio.resx">
       <DependentUpon>frm_Precio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_Venta.resx">
-      <DependentUpon>frm_Venta.cs</DependentUpon>
+    <EmbeddedResource Include="frm_Predio.resx">
+      <DependentUpon>frm_Predio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_Usuario.resx">
+      <DependentUpon>frm_Usuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -99,9 +122,6 @@
     </Compile>
     <EmbeddedResource Include="frm_Producción.resx">
       <DependentUpon>frm_Producción.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frm_Compra.resx">
-      <DependentUpon>frm_Compra.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -127,6 +147,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Usuario.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Password.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\visibilityON.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\visibilityOFF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\restart.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

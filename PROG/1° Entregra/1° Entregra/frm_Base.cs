@@ -15,40 +15,29 @@ namespace _1__Entregra
 {
     public partial class frm_Base : Form
     {
-        Point izquierda= new Point(549, 12);
-        Point derecha = new Point(571, 12);
-        Size Login = new Size(621, 326);
-        Size NoLogin = new Size(988, 491);
-        private void LimpiarLogin()
+        #region Variables
+        Size login = new Size(621, 326);
+        Size noLogin = new Size(988, 491);
+        bool visible = true;
+        int intentos = 3;
+        #endregion
+        #region Metodos
+        private void AlAbrirForm(string text1, string text2, bool estado)
         {
+            btn_Comercio.Text = text1;
+            btn_Produccion.Text = text2;
+            btn_Datos.Visible = estado;
+            pnl_Menu.Enabled = true;
+            pnl_Menu.Visible = true;
+            pnl_Ingreso.SendToBack();
+            pnl_Menu.Dock = DockStyle.Left;
+            pnl_Ingreso.BringToFront();
+            this.Size = noLogin;
+            pnl_ToolBar.BackColor = Color.SteelBlue;
             txt_Cedula.Text = "";
             txt_Contraseña.Text = "";
-            pic_BorrarCedula.BackColor = System.Drawing.Color.IndianRed;
-            pic_BorrarContraseña.BackColor = System.Drawing.Color.IndianRed;
         }
-        Form formulario;
-        private void AbrirFormulario<MiForm>() where MiForm : Form, new()
-        {
-            
-            formulario = panel_Ingreso.Controls.OfType<MiForm>().FirstOrDefault();//Busca en la colecion el formulario
-            //si el formulario/instancia no existe
-            if (formulario == null)
-            {
-                formulario = new MiForm();
-                formulario.TopLevel = false;
-                formulario.FormBorderStyle = FormBorderStyle.None;
-                formulario.Dock = DockStyle.Fill;
-                panel_Ingreso.Controls.Add(formulario);
-                panel_Ingreso.Tag = formulario;
-                formulario.Show();
-                formulario.BringToFront();
-            }
-            //si el formulario/instancia existe
-            else
-            {
-                formulario.BringToFront();
-            }
-        }
+        #endregion
         public frm_Base()
         {
             InitializeComponent();
@@ -56,193 +45,127 @@ namespace _1__Entregra
             this.DoubleBuffered = true;
         }
 
-        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
-        private extern static void ReleaseCapture();
-        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
-        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
+        #region ToolBar
+        private void pnl_ToolBar_MouseMove(object sender, MouseEventArgs e)
+        {
+            Class_Metodos.ReleaseCapture();
+            Class_Metodos.SendMessage(this.Handle, 0x112, 0xf012, 0);
+        }
 
         private void pic_Cerrar_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
-
-        private void pic_Agrandar_Click(object sender, EventArgs e)
-        {
-            pic_Agrandar.Visible = false;
-            pic_Normal.Visible = true;
-            this.WindowState = FormWindowState.Maximized;
-        }
-
-        private void pic_Normal_Click(object sender, EventArgs e)
-        {
-            pic_Agrandar.Visible = true;
-            pic_Normal.Visible = false;
-            this.WindowState = FormWindowState.Normal;
-        }
-
         private void pic_Minimizar_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
         }
-
-        private void panel_ToolBar_MouseMove(object sender, MouseEventArgs e)
-        {
-            ReleaseCapture();
-            SendMessage(this.Handle, 0x112, 0xf012, 0);
-        }
-
+        #endregion
+        #region Ingreso
         private void txt_Cedula_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == 22)
-            {
-                e.Handled = true;
-                MessageBox.Show("Pegar esta desabilitado", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            else if (char.IsDigit(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else if (char.IsControl(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else
-            {
-                e.Handled = true;
-                MessageBox.Show("Solo se admiten datos numéricos", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
+            Class_Metodos.Validacion_Ingreso_Numeros(e, "cedula");
         }
-
-        private void txt_Cedula_KeyUp(object sender, KeyEventArgs e)
+        private void txt_Cedula_TextChanged(object sender, EventArgs e)
         {
-            if (txt_Cedula.TextLength > 0)
-            {
-                pic_BorrarCedula.BackColor = System.Drawing.Color.Firebrick;
-            }
-            else
-            {
-                pic_BorrarCedula.BackColor = System.Drawing.Color.IndianRed;
-            }
+            Class_Metodos.PicBorrar_Color(txt_Cedula, pic_BorrarCedula);
         }
 
         private void txt_Contraseña_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == 22)
-            {
-                e.Handled = true;
-                MessageBox.Show("Pegar esta desabilitado", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            else if (char.IsSeparator(e.KeyChar))
-            {
-                e.Handled = true;
-                MessageBox.Show("No se aceptan espacios", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
+            Class_Metodos.Validacion_Ingreso_Contraseña(e);
         }
-
-        private void txt_Contraseña_KeyUp(object sender, KeyEventArgs e)
+        private void txt_Contraseña_TextChanged(object sender, EventArgs e)
         {
-            if (txt_Contraseña.TextLength > 0)
-            {
-                pic_BorrarContraseña.BackColor = System.Drawing.Color.Firebrick;
-            }
-            else
-            {
-                pic_BorrarContraseña.BackColor = System.Drawing.Color.IndianRed;
-            }
+            Class_Metodos.PicBorrar_Color(txt_Contraseña, pic_BorrarContraseña);
         }
 
         private void pic_BorrarCedula_Click(object sender, EventArgs e)
         {
-            txt_Cedula.Text = "";
-            txt_Cedula.Focus();
-            pic_BorrarCedula.BackColor = System.Drawing.Color.IndianRed;
+            Class_Metodos.PicBorrar(txt_Cedula);
         }
-
         private void pic_BorrarContraseña_Click(object sender, EventArgs e)
         {
-            txt_Contraseña.Text = "";
-            txt_Contraseña.Focus();
-            pic_BorrarContraseña.BackColor = System.Drawing.Color.IndianRed;
+            Class_Metodos.PicBorrar(txt_Contraseña);
+        }
+        private void pic_ContraseñaVisible_Click(object sender, EventArgs e)
+        {
+            visible = Class_Metodos.PicVisible(visible, txt_Contraseña, pic_ContraseñaVisible);
         }
 
         private void btn_Ingresar_Click(object sender, EventArgs e)
         {
-            if (!Regex.IsMatch(txt_Cedula.Text, "^\\d{8}$"))
+            if (!Class_Metodos.Validacion_Cedula(txt_Cedula.Text))
             {
                 MessageBox.Show("Ingrese una cedula valida.", "validación de cedula", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txt_Cedula.Focus();
             }
             else if (Regex.IsMatch(txt_Contraseña.Text, "\\s|^$"))
             {
-                MessageBox.Show("Ingrese una contraseña valida.", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Ingrese una contraseña.", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txt_Contraseña.Focus();
             }
             else if (!Regex.IsMatch(txt_Contraseña.Text, "\\d") | !Regex.IsMatch(txt_Contraseña.Text, "[a-zA-ZÀ-ÿ\u00f1\u00d1]") | !Regex.IsMatch(txt_Contraseña.Text, "[^0-9a-zA-ZÀ-ÿ\u00f1\u00d1]") | !Regex.IsMatch(txt_Contraseña.Text, "\\S{6,20}"))
             {
-                MessageBox.Show("La contraseña debe tener al menos 6 digitos, conteniendo letras, numeros y simbolos.", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                txt_Contraseña.Focus();
+                if (intentos > 0)
+                {
+                    MessageBox.Show("Contraseña incorrecta", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txt_Contraseña.Focus();
+                    intentos--;
+                }
+                else
+                    Application.Exit();
             }
             else
             {
-                
-                pic_Minimizar.Location = izquierda;
-                pic_Agrandar.Visible = true;
-                AbrirFormulario<frm_Compra>();
-                panel_Menu.Enabled = true;
-                panel_Menu.Visible = true;
-                panel_Ingreso.SendToBack();
-                panel_Menu.Dock = DockStyle.Left;
-                panel_Ingreso.BringToFront();
-                this.Size = NoLogin;
-                panel_ToolBar.BackColor= Color.Blue;
-                if (txt_Cedula.Text.Equals("12345678")&&txt_Contraseña.Text.Equals("1234D.."))
+                if (txt_Cedula.Text.Equals("12345672") && txt_Contraseña.Text.Equals("1234Adm.."))
                 {
-                    btn_Compra.Text = "Usuarios";
-                    btn_Venta.Text = "Precios";
-                    btn_Produccion.Text = "";
-                    AbrirFormulario<frm_Precio>();
+                    Class_Metodos.AbrirFormulario<frm_Usuario>(pnl_Ingreso, false, lbl_Toolbar_Titulo, "Usuario");
+                    AlAbrirForm("Usuarios", "Precios", false);
+                }
+                else if (txt_Cedula.Text.Equals("10000008") && txt_Contraseña.Text.Equals("1234Pro.."))
+                {
+                    Class_Metodos.AbrirFormulario<frm_Comercio>(pnl_Ingreso, false, lbl_Toolbar_Titulo, "Comercio");
+                    AlAbrirForm("Comercio", "Producción", true);
                 }
                 else
                 {
-                    btn_Compra.Text = "Compra";
-                    btn_Venta.Text = "Venta";
-                    btn_Produccion.Text = "Produccion";
-                    AbrirFormulario<frm_Compra>();
+                    if (intentos > 0)
+                    {
+                        MessageBox.Show("Cedula o contraseña incorrecta", "validación de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        intentos--;
+                    }
+                    else
+                        Application.Exit();
                 }
-                LimpiarLogin();
             }
         }
-
+        #endregion
+        #region Menu
         private void btn_Volver_Click(object sender, EventArgs e)
         {
-            formulario.Close();
-            pic_Agrandar.Visible = false;
-            pic_Normal.Visible= false;
-            this.WindowState = FormWindowState.Normal;
-            panel_Menu.Visible = false;
-            panel_Menu.Enabled = false;
-            panel_Ingreso.SendToBack();
-            panel_Menu.Dock = DockStyle.None;
-            panel_Ingreso.BringToFront();
-            this.Size = Login;
-            panel_ToolBar.BackColor = Color.DarkGreen;
-            pic_Minimizar.Location = derecha;
-            btn_Compra.Text = "Compra";
-            btn_Venta.Text = "Venta";
-            btn_Produccion.Text = "Produccion";
+            intentos = 3;
+            Class_Metodos.formulario.Close();
+            pnl_Menu.Visible = false;
+            pnl_Menu.Enabled = false;
+            pnl_Ingreso.SendToBack();
+            pnl_Menu.Dock = DockStyle.None;
+            pnl_Ingreso.BringToFront();
+            this.Size = login;
+            pnl_ToolBar.BackColor = Color.DarkGreen;
+            txt_Contraseña.PasswordChar = '*';
+            lbl_Toolbar_Titulo.Text = "Ingresar";
         }
 
-        private void btn_Compra_Click(object sender, EventArgs e)
+        private void btn_Comercio_Click(object sender, EventArgs e)
         {
-            if (btn_Compra.Text.Equals("Usuarios"))
+            if (btn_Comercio.Text.Equals("Usuarios"))
             {
-                formulario.Close();
-                //AbrirFormulario<frm_Usuario>();
+                Class_Metodos.AbrirFormulario<frm_Usuario>(pnl_Ingreso, true, lbl_Toolbar_Titulo, "Usuario");
             }
-            else if(btn_Compra.Text.Equals("Compra"))
+            else if (btn_Comercio.Text.Equals("Comercio"))
             {
-                formulario.Close();
-                AbrirFormulario<frm_Compra>();
+                Class_Metodos.AbrirFormulario<frm_Comercio>(pnl_Ingreso, true, lbl_Toolbar_Titulo, "Comercio");
             }
             else
             {
@@ -250,37 +173,15 @@ namespace _1__Entregra
                 Application.Exit();
             }
         }
-
-        private void btn_Venta_Click(object sender, EventArgs e)
+        private void btn_Produccion_Click(object sender, EventArgs e)
         {
-            if (btn_Venta.Text.Equals("Precios"))
+            if (btn_Produccion.Text.Equals("Precios"))
             {
-                formulario.Close();
-                AbrirFormulario<frm_Precio>();
-            }
-            else if (btn_Venta.Text.Equals("Venta"))
-            {
-                formulario.Close();
-                AbrirFormulario<frm_Venta>();
-            }
-            else
-            {
-                MessageBox.Show("Si ve este mensaje, es que a surgido un error, contacte con un administrativo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                Application.Exit();
-            }
-        }
-
-        private void btn_Producción_Click(object sender, EventArgs e)
-        {
-            if (btn_Produccion.Text.Equals(""))
-            {
-                formulario.Close();
-                //AbrirFormulario<frm_Usuario>();
+                Class_Metodos.AbrirFormulario<frm_Precio>(pnl_Ingreso, true, lbl_Toolbar_Titulo, "Precio");
             }
             else if (btn_Produccion.Text.Equals("Producción"))
             {
-                formulario.Close();
-                AbrirFormulario<frm_Producción>();
+                Class_Metodos.AbrirFormulario<frm_Producción>(pnl_Ingreso, true, lbl_Toolbar_Titulo, "Producción");
             }
             else
             {
@@ -288,5 +189,11 @@ namespace _1__Entregra
                 Application.Exit();
             }
         }
+        private void btn_Datos_Click(object sender, EventArgs e)
+        {
+            Class_Metodos.AbrirFormulario<frm_Datos>(pnl_Ingreso, true, lbl_Toolbar_Titulo, "Datos");
+        }
+        #endregion
+        
     }
 }
