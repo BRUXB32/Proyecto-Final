@@ -262,7 +262,7 @@ while [[ true ]]; do
       modificarUsuario
       break
       ;;
-      4)clear
+      4)
       exit
       ;;
       *)clear
