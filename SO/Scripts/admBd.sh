@@ -119,7 +119,11 @@ function borrarUsuario(){
     done
   fi
 
-  
+  mysql -u consultaUsuarios < Sql/selectUser.sql > Sql/.resultado.txt
+
+  cat .resultado.txt | grep "^$nombre[[:blank:]]\+" | grep -n ""
+
+
 
 }
 ############ Menú principal ############
