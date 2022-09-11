@@ -92,17 +92,40 @@ function agruegarUsuario() {
   done
 
   sed -i s/"^CREATE USER '@name'@'@location' IDENTIFIED BY '@pass';$"/"CREATE USER '$nombre'@'$lugarCon' IDENTIFIED BY '$contra';"/ Sql/createUser.sql
-  sed -i s/"^GRANT ALL PIVILEGES ON *.* TO '@name';$"/"GRANT ALL PRIVILEGES ON *.* TO '$nombre';"/ Sql/createUser.sql
+  sed -i s/"^GRANT SELECT, INSERT, UPDATE, DELETE  ON kefruta.* TO '@name'@'@location';$"/"GRANT SELECT, INSERT, UPDATE, DELETE  ON kefruta.* TO '$nombre'@'$lugarCon';"/ Sql/createUser.sql
 
   mysql -u root -p < Sql/createUser.sql
 
-  echo -e "CREATE USER '@name'@'@location' IDENTIFIED BY '@pass';\nGRANT ALL PIVILEGES ON *.* TO '@name';\nFLUSH PRIVILEGES;" > Sql/createUser.sql
+  echo -e "CREATE USER '@name'@'@location' IDENTIFIED BY '@pass';\nGRANT SELECT, INSERT, UPDATE, DELETE  ON kefruta.* TO '@name'@'@location';\nFLUSH PRIVILEGES;" > Sql/createUser.sql
 }
 
+#################################################################################
+function borrarUsuario(){
+  lugarCon="1"
+  #Ingreso del nombre del nuevo usuario
+  validacionNombre=$(validarNombre "Ingrese el nombre del usuario a eliminar: ")
+  validacion=$(echo "$validacionNombre" | grep "[0-9]")
+  nombre=$(echo "$validacionNombre" | grep "^[a-z?A-Z?]*$")
 
+  if [[ "$validacion" == "0" ]]; then
+    clear
+  else
+    while [[ "$validacion" != "0" ]]; do
+      clear
+      echo -e "¡Ingresó un nombre invalido!"
+      validacionNombre=$(validarNombre "Ingrese el nombre del usuario a eliminar: ")
+      validacion=$(echo "$validacionNombre" | grep "[0-9]")
+      nombre=$(echo "$validacionNombre" | grep "^[a-z?A-Z?]*$")
+    done
+  fi
+
+  
+
+}
+############ Menú principal ############
 while [[ true ]]; do
   echo -e "Menú de adminitración de base de datos\n"
-    select opcion in "Agruegar un administrador de BD" "Volver"
+    select opcion in "Agruegar un administrador de BD" "Borrar usuario" "Volver"
   do
     case $REPLY in
       1)
@@ -111,9 +134,13 @@ while [[ true ]]; do
       break
       ;;
       2)
+      borrarUsuario
+      clear
+      break
+      ;;
+      3)
       exit
       clear
-
       ;;
       *)clear
       echo "Opción incorrecta"

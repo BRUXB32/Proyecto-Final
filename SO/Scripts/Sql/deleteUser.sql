@@ -1,0 +1,3 @@
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM '@name'@'@location';
+DROP USER '@name'@'location';
+FLUSH PRIVILEGES;

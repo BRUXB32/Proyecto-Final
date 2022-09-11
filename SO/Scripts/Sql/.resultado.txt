@@ -1,0 +1,6 @@
+User	Host
+brun	%
+bruno	%
+mariadb.sys	localhost
+mysql	localhost
+root	localhost
