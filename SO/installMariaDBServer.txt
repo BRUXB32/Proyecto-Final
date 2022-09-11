@@ -13,3 +13,11 @@ mysql_scure_installtion
 #Abrimos los puertos de MariaDB
 firewall-cmd --zone=public --add-port=3306/tcp --permanent
 firewall-cmd --reload
+
+
+##################################################################
+sed -i "s/^CREATE USER '@name'@'@location' IDENTIFIED BY '@pass';$
+/CREATE USER 'pepe'@'%' IDENTIFIED BY 'pepe';/" createUser.sql
+
+sed -i "s/^GRANT ALL PIVILEGES ON *.* TO '@name';$/
+GRANT ALL PRIVILEGES ON *.* TO 'pepe';/" createUser.sql

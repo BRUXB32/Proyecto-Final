@@ -1,3 +1,3 @@
 CREATE USER '@name'@'@location' IDENTIFIED BY '@pass';
-GRANT ALL PIVILEGES ON *.* TO '@name'@'@location';
+GRANT SELECT, INSERT, UPDATE, DELETE  ON kefruta.* TO '@name'@'@location';
 FLUSH PRIVILEGES;

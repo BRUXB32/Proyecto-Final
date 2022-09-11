@@ -23,6 +23,31 @@ function validarNombre() {
 }
 
 #################################################################################
+function validacionLogica() {
+  #$1 = Mensaje de ingreso de datos
+  #$2 = Mensaje de respuesta erronea
+  read -p "$1 [S/n] " respuesta
+    if [[ "$respuesta" =~ ^s?S?*$ ]]; then
+      echo "0"
+    elif [[ "$respuesta" =~ ^n?N?+$ ]]; then
+      echo "1"
+    else
+      while [[ ! "$respuesta" =~ ^s?S?*$ ]] && [[ ! "$respuesta" =~ ^n?N?+$ ]]; do
+        read -p "$2 $1 [S/n]" respuesta
+      done
+
+      if [[ "$respuesta" =~ ^s?S?*$ ]]; then
+        echo "0"
+      elif [[ "$respuesta" =~ ^n?N?+$ ]]; then
+        echo "1"
+      else
+        echo "1"
+      fi
+
+    fi
+}
+
+#################################################################################
 function agruegarUsuario() {
   clear
   lugarCon="1"
@@ -57,9 +82,9 @@ function agruegarUsuario() {
       read -s -p "Ingrese nuevamente la contraseña del nuevo usuario: " contra
       echo ""
       read -s -p "Confirme la contraseña: " confirm
-      echo ""
+
       if [[ "$contra" == "$confirm" ]]; then
-        echo "Las contraseñas coinciden"
+        echo -e "\nLas contraseñas coinciden"
         sleep 1
         break
       fi
@@ -94,7 +119,9 @@ function agruegarUsuario() {
   sed -i s/"^CREATE USER '@name'@'@location' IDENTIFIED BY '@pass';$"/"CREATE USER '$nombre'@'$lugarCon' IDENTIFIED BY '$contra';"/ Sql/createUser.sql
   sed -i s/"^GRANT SELECT, INSERT, UPDATE, DELETE  ON kefruta.* TO '@name'@'@location';$"/"GRANT SELECT, INSERT, UPDATE, DELETE  ON kefruta.* TO '$nombre'@'$lugarCon';"/ Sql/createUser.sql
 
-  mysql -u root -p < Sql/createUser.sql
+  mysql -u root -p < Sql/createUser.sql && echo "¡Usuario creado con exito!" || echo "No se creó el usuario, error en el ingreso de contraseña."
+
+  sleep 2
 
   echo -e "CREATE USER '@name'@'@location' IDENTIFIED BY '@pass';\nGRANT SELECT, INSERT, UPDATE, DELETE  ON kefruta.* TO '@name'@'@location';\nFLUSH PRIVILEGES;" > Sql/createUser.sql
 }
@@ -121,15 +148,74 @@ function borrarUsuario(){
 
   mysql -u consultaUsuarios < Sql/selectUser.sql > Sql/.resultado.txt
 
-  cat .resultado.txt | grep "^$nombre[[:blank:]]\+" | grep -n ""
+  multiCuenta=$(cat Sql/.resultado.txt | grep "^$nombre[[:blank:]]\+" | grep -n "" | grep -o "2")
+
+  if [[ "$multiCuenta" == "2"  ]]; then
+    while [[ "$lugarCon" == "1" ]]; do
+      echo -e "El usuario posee una cuenta localhost y %(equipos externos), ¿cual desea borrar?"
+        select opcion in "localhost" "%(equipos externos)"
+      do
+        case $REPLY in
+          1)
+          lugarCon="localhost"
+          break
+          ;;
+          2)
+          lugarCon="%"
+          break
+          ;;
+          *)clear
+          echo "Opción incorrecta"
+          lugarCon="1"
+          sleep 1
+          clear
+          break
+          ;;
+        esac
+      done
+    done
+  else
+    lugarCon=$(cat Sql/.resultado.txt | grep "^$nombre[[:blank:]]\+" | grep -o "localhost")
+    if [[ "$lugarCon" == "" ]]; then
+      lugarCon=$(cat Sql/.resultado.txt | grep "^$nombre[[:blank:]]\+" | grep -o "%")
+    fi
+  fi
+
+    sed -i s/"^REVOKE ALL PRIVILEGES, GRANT OPTION FROM '@name'@'@location';$"/"REVOKE ALL PRIVILEGES, GRANT OPTION FROM '$nombre'@'$lugarCon';"/ Sql/deleteUser.sql
+    sed -i s/"^DROP USER '@name'@'@location';$"/"DROP USER '$nombre'@'$lugarCon';"/ Sql/deleteUser.sql
+
+    eleccion=$(validacionLogica "¿Esta seguro que quiere eliminar al usuario: $nombre?" "Opción incorrecta")
+
+    if [[ "$eleccion" == "0" ]]; then
+      mysql -u root -p < Sql/deleteUser.sql && echo "¡Usuario eliminado con exito!" || echo "No se elimino el usuario, error en el ingreso de contraseña."
+    else
+      echo "No se hizo ningun cambio"
+      sleep 1
+      clear
+    fi
 
 
 
+    echo -e "REVOKE ALL PRIVILEGES, GRANT OPTION FROM '@name'@'@location';\nDROP USER '@name'@'@location';\nFLUSH PRIVILEGES;" > Sql/deleteUser.sql
+    rm Sql/.resultado.txt
+    sleep 1
+    clear
+}
+#################################################################################
+function listarUsuario(){
+  clear
+  echo -e "Toque cualquier tecla para volver\n\n"
+  mysql -u root --password=Aa5254598* -e "SELECT User,Host FROM mysql.user"
+  #mysql -u consultaUsuarios < Sql/selectUser.sql > Sql/.resultado.txt
+  #cat Sql/.resultado.txt
+  read -p "" NaN
+  #rm Sql/.resultado.txt
+  clear
 }
 ############ Menú principal ############
 while [[ true ]]; do
   echo -e "Menú de adminitración de base de datos\n"
-    select opcion in "Agruegar un administrador de BD" "Borrar usuario" "Volver"
+    select opcion in "Agruegar un administrador de BD" "Borrar usuario" "Listar usuarios actuales" "Volver"
   do
     case $REPLY in
       1)
@@ -143,6 +229,11 @@ while [[ true ]]; do
       break
       ;;
       3)
+      listarUsuario
+      clear
+      break
+      ;;
+      4)
       exit
       clear
       ;;
