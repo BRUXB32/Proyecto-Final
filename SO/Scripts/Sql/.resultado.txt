@@ -1,6 +1,0 @@
-User	Host
-consultaUsuarios	localhost
-juli	localhost
-mariadb.sys	localhost
-mysql	localhost
-root	localhost
