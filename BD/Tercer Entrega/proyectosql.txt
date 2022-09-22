@@ -1,6 +1,6 @@
 use kefruta;
 
-drop table if exists Historico,Facturas,Sectores,ProdEIns,Predios,Usuarios,Personas;
+drop table if exists historico,facturas,sectores,prodeins,predios,usuarios,personas;
 
 create table if not exists personas(
 Cedula int(8),
