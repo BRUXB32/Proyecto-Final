@@ -1,8 +1,10 @@
-use mpoy;
+use kefruta;
+
+use kefruta;
 
 drop table if exists Historico,Facturas,Sectores,ProdEIns,Predios,Usuarios,Personas;
 
-create table if not exists Personas(
+create table if not exists personas(
 Cedula int(8),
 Nombre varchar(60) not null,
 Correo varchar(80),
@@ -12,7 +14,7 @@ BajaLogica bool default false not null ,
 primary key(Cedula)
 );
 
-create table if not exists Usuarios(
+create table if not exists usuarios(
 Cedula int(8),
 Contraseña varchar(20) not null,
 TipoP enum('PF','PV','PC','AD') not null,
@@ -20,7 +22,7 @@ BajaLogica bool default false not null,
 primary key(Cedula)
 );
 
-create table if not exists ProdEIns(
+create table if not exists prodeins(
 IdPoI int(3) auto_increment,
 Nombre varchar(25) unique not null,
 Cantidad double(6,2) not null,
@@ -30,28 +32,28 @@ BajaLogica bool default false not null,
 primary key(IdPoI)
 );
 
-create table if not exists Predios(
+create table if not exists predios(
 IdPredio int(2),
 Cedula int(8),
 CultivoAño int(10),
 BajaLogica bool default false not null,
-foreign key(Cedula) references Personas(Cedula),
+foreign key(Cedula) references personas(Cedula),
 primary key(IdPredio)
 );
 
-create table if not exists Sectores(
+create table if not exists sectores(
 IdPredio int(2),
 IdSector int(1),
 IdP int(3),
 TamañoSec int(1) not null,
 Etapa enum('Recien Plantado','Z2.2','Z3.0','Reposo','Libre'),
 CambioEstado date,
-foreign key(IdPredio) references Predios(IdPredio),
-foreign key(IdP) references ProdEIns(IdPoI),
+foreign key(IdPredio) references predios(IdPredio),
+foreign key(IdP) references prodeins(IdPoI),
 primary key(IdPredio, IdSector)
 );
 
-create table if not exists Facturas(
+create table if not exists facturas(
 IdFactura int(15) auto_increment,
 TipoT enum('C', 'V') not null,
 Cedula int(8) not null,
@@ -60,35 +62,35 @@ PrecioTotal double(6,2) not null,
 Cantidad double(6,2) not null,
 Fecha datetime not null,
 Estado enum('Espera','Acceptado','Anulado') not null,
-foreign key(Cedula) references Personas(Cedula),
-foreign key(IdPoI) references ProdEIns(IdPoI),
+foreign key(Cedula) references personas(Cedula),
+foreign key(IdPoI) references prodeins(IdPoI),
 primary key(IdFactura)
 );
 
-create table if not exists Historico(
+create table if not exists historico(
 IdHistorico int(15) auto_increment,
 Cedula  int(8) not null,
 Fecha datetime not null,
 Operacion varchar(300) not null,
-foreign key(Cedula) references Personas(Cedula),
+foreign key(Cedula) references personas(Cedula),
 primary key(IdHistorico)
 );
 
-insert into Personas(Cedula,Nombre,Correo,Tel,TipoP)
+insert into personas(Cedula,Nombre,Correo,Tel,TipoP)
 values
 (12345672,'Administrativo','administrativo@gmail.com',123456789,'AD'),
 (10000008,'Productor Cereales','productor.cereales@gmail.com',123456782,'PC'),
 (54992740,'Productor Frutas','productor.frutas@gmail.com',null,'PF'),
 (1000001,'Productor Verduras','productor.verduras@gmail.com',null,'PV');
 
-insert into Usuarios(Cedula,Contraseña,TipoP)
+insert into usuarios(Cedula,Contraseña,TipoP)
 values
 (12345672,'1234Adm..','AD'),
 (10000008,'1234PC..','PC'),
 (54992740,'1234PF..','PF'),
 (1000001,'1234PV..','PV');
 
-insert into ProdEIns(Nombre,Cantidad,Precio,Tipo)
+insert into prodeins(Nombre,Cantidad,Precio,Tipo)
 values
 ('Manzanas',5000,34,'Fr'),
 ('Naranjas',5000,38,'Fr'),
@@ -108,7 +110,7 @@ values
 ('Fertilizante de nitrogeno',5000,23,'Fe'),
 ('Pesticidas',5000,40,'Pe');
 
-insert into Predios(IdPredio,Cedula,CultivoAño)
+insert into predios(IdPredio,Cedula,CultivoAño)
 values
 (1,10000008,1100),
 (2,54992740,1243),
@@ -116,7 +118,7 @@ values
 (4,NULL,0),
 (5,NULL,0);
 
-insert into Sectores(IdPredio,IdSector,IdP,TamañoSec,Etapa)
+insert into sectores(IdPredio,IdSector,IdP,TamañoSec,Etapa)
 values
 (1,1,6,3,'Z2.2'),
 (1,2,7,3,'Z3.0'),
@@ -129,16 +131,17 @@ values
 (2,5,2,2,'Reposo'),
 (2,6,3,2,'Reposo');
 
-insert into Facturas(TipoT,Cedula,IdPoI,PrecioTotal,Cantidad,Fecha,Estado)
+insert into facturas(TipoT,Cedula,IdPoI,PrecioTotal,Cantidad,Fecha,Estado)
 values
 ('C',54992740,8,200,3,now(),'Acceptado'),
 ('C',10000008,13,600,4,now(),'Espera'),
 ('V',54992740,1,800,3,now(),'Espera');
 
-insert into Historico(Cedula,Fecha,Operacion)
+insert into historico(Cedula,Fecha,Operacion)
 values
 (12345672,now(),'Cambio Nombre de usuario 10000008'),
 (12345672,now(),'Cambio Cedula de usuario 54992740');
+
 
 select Facturas.IdFactura,Facturas.TipoT,ProdEIns.Nombre,Facturas.PrecioTotal,Facturas.Cantidad,Facturas.Fecha,Facturas.Estado from Facturas,ProdEIns where Facturas.Cedula = 12345678 and Facturas.IdPoI=ProdEIns.IdPoI;
 select Facturas.IdFactura,ProdEIns.Nombre,Facturas.Cantidad,Facturas.Fecha from Facturas,ProdEIns where Facturas.Cedula = 54992740 and Facturas.TipoT='C' and Facturas.IdPoI=ProdEIns.IdPoI;
