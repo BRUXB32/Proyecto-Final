@@ -1,7 +1,5 @@
 use kefruta;
 
-use kefruta;
-
 drop table if exists Historico,Facturas,Sectores,ProdEIns,Predios,Usuarios,Personas;
 
 create table if not exists personas(
