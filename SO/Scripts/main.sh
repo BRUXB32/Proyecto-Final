@@ -1,5 +1,5 @@
 #!/bin/bash
-
+clear
 ############ Cambios necesarios antes de iniciar el script ############
 
 #Agrego permisos de ejecicción al resto de scripts
@@ -11,7 +11,7 @@ PS3="Ingrese una opción: "
 
 while [[ true ]]; do
   echo -e "Menú principal del sistema\n"
-    select opcion in "Menú de administración de usuario" "Menú de administración de BD" "Salir"
+    select opcion in "Menú de administración de usuario" "Menú de administración de BD" "Menú de testeo de red" "Menú de acceso al servidor" "Salir"
   do
     case $REPLY in
       1)
@@ -25,6 +25,16 @@ while [[ true ]]; do
       break
       ;;
       3)
+      ./testRed.sh
+      clear
+      break
+      ;;
+      4)
+      ./accesoServidor.sh
+      clear
+      break
+      ;;
+      5)
       clear
       exit
       ;;

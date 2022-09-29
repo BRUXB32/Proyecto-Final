@@ -7,7 +7,7 @@ PS3="Ingrese una opción: "
 
 while [[ true ]]; do
   echo -e "Menú principal del sistema\n"
-    select opcion in "Usuarios conectados actualmente" "Últimas conexiones" "Volver"
+    select opcion in "Usuarios conectados actualmente" "Volver"
   do
     case $REPLY in
       1)clear
@@ -17,13 +17,7 @@ while [[ true ]]; do
       clear
       break
       ;;
-      2)clear
-      last | tail
-      read -p "Ingrese ENTER para volver" noVal
-      clear
-      break
-      ;;
-      3)
+      2)
       exit
       ;;
       *)clear
