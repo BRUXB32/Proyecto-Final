@@ -11,7 +11,7 @@ PS3="Ingrese una opción: "
 
 while [[ true ]]; do
   echo -e "Menú principal del sistema\n"
-    select opcion in "Menú de administración de usuario" "Menú de administración de BD" "Menú de testeo de red" "Menú de acceso al servidor" "Salir"
+    select opcion in "Menú de administración de usuario" "Menú de administración de BD" "Menú de testeo de red y servicios" "Menú de acceso al servidor" "Salir"
   do
     case $REPLY in
       1)

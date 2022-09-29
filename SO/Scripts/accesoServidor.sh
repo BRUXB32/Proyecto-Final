@@ -6,7 +6,7 @@ clear
 PS3="Ingrese una opción: "
 
 while [[ true ]]; do
-  echo -e "Menú principal del sistema\n"
+  echo -e "Menú de acceso al servidor\n"
     select opcion in "Usuarios conectados actualmente" "Volver"
   do
     case $REPLY in
