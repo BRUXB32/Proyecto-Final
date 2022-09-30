@@ -14,16 +14,19 @@ function testServicios() {
       case $REPLY in
         1)clear
         systemctl status mariadb
-        clear
+        read -p "Ingrese ENTER para volver" noVal
+	clear
         break
         ;;
         2)clear
-        systemctl status zabbix
-        clear
+        systemctl status zabbix-server | less
+        #read -p "Ingrese ENTER para volver" noVal
+	clear
         break
         ;;
         3)clear
-        systemctl status clamav
+        systemctl status clamd@scan
+	read -p "Ingrese ENTER para volver" noVal
         clear
         break
         ;;
