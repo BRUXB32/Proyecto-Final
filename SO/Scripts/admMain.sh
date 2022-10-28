@@ -247,7 +247,7 @@ function modificarUsuario(){
 ############ Menú principal ############
 while [[ true ]]; do
   echo -e "Menú de administración de usuarios\n"
-    select opcion in "Agruegar usuario" "Eliminar usuario" "Modificar usuario" "Salir"
+    select opcion in "Agruegar usuario" "Eliminar usuario" "Modificar usuario" "Listar usuarios del sistema" "Salir"
   do
     case $REPLY in
       1)
@@ -262,7 +262,14 @@ while [[ true ]]; do
       modificarUsuario
       break
       ;;
-      4)
+      4)clear
+      cat /etc/passwd | grep "^[a-zA-Z]*:x:[0-9][0-9][0-9][0-9]"
+      echo -e ""
+      read -p "Ingrese ENTER para volver" noVal
+      clear
+      break
+      ;;
+      5)
       exit
       ;;
       *)clear
