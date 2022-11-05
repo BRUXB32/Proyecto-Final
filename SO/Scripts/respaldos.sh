@@ -23,6 +23,8 @@ while [[ true ]]; do
       fecha=$(date +%Y-%m-%d-%H.%M.%S)
       mysqldump -u root -prtBd1234. kefruta > /backupbd/respaldo-"$fecha".sql
       tar -cvf /backupbd/respaldo-binario-"$fecha".tar /var/log/mariadb/*
+      clear
+      break
       ;;
       3)
       exit
