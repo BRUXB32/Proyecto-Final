@@ -146,18 +146,8 @@ function borrarUsuario(){
     done
   fi
 
-  mysql -u consultaUsuarios -pconsultaBd1234. < Sql/selectUser.sql > Sql/.resultado.txt
-
-  existe=$(cat Sql/.resultado.txt | grep -o "^$nombre[[:blank:]]\+" | grep "^$nombre[[:blank:]]\+$")
-
-  #echo "$nombre"
-  #echo "$existe"
-  #read -p "asd" asd
-  if [[ "$existe" != "$nombre" ]]; then
-    echo "¡El usuario no existe!"
-    sleep 2
-  else
-
+  #mysql -u consultaUsuarios --password=consultaBd1234. < Sql/selectUser.sql > Sql/.resultado.txt
+  mysql -u root --password=Aa5254598* < Sql/selectUser.sql > Sql/.resultado.txt
   multiCuenta=$(cat Sql/.resultado.txt | grep "^$nombre[[:blank:]]\+" | grep -n "" | grep -o "2")
 
   if [[ "$multiCuenta" == "2"  ]]; then
@@ -210,12 +200,11 @@ function borrarUsuario(){
     rm Sql/.resultado.txt
     sleep 1
     clear
-  fi
 }
 #################################################################################
 function listarUsuario(){
   clear
-  echo -e "Toque cualquier tecla para volver\n\n"
+  echo -e "Toque enter para volver\n\n"
   mysql -u root --password=rtBd1234. -e "SELECT User,Host FROM mysql.user"
   #mysql -u consultaUsuarios < Sql/selectUser.sql > Sql/.resultado.txt
   #cat Sql/.resultado.txt
@@ -223,23 +212,10 @@ function listarUsuario(){
   #rm Sql/.resultado.txt
   clear
 }
-#################################################################################
-function subirMotor(){
-  clear
-  (systemctl start mariadb && echo "Motor iniciado correctamente") || echo "Error al inicar el motor de base de datos"
-  sleep 3
-}
-#################################################################################
-function bajarMotor(){
-  clear
-  (systemctl stop mariadb && echo "Motor parado correctamente") || echo "Error al parar el motor de base de datos"
-  sleep 3
-}
-
 ############ Menú principal ############
 while [[ true ]]; do
   echo -e "Menú de adminitración de base de datos\n"
-    select opcion in "Agruegar un administrador de BD" "Borrar usuario" "Listar usuarios actuales" "Iniciar motor de base de datos" "Parar motor de base de datos" "Volver"
+    select opcion in "Agruegar un administrador de BD" "Borrar usuario" "Listar usuarios actuales" "Volver"
   do
     case $REPLY in
       1)
@@ -258,16 +234,6 @@ while [[ true ]]; do
       break
       ;;
       4)
-      subirMotor
-      clear
-      break
-      ;;
-      5)
-      bajarMotor
-      clear
-      break
-      ;;
-      6)
       exit
       clear
       ;;

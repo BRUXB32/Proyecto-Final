@@ -11,7 +11,7 @@ while [[ true ]]; do
   do
     case $REPLY in
       1)clear
-      journalctl --list-boots
+      journalctl --list-boots | less
       clear
       break
       ;;
