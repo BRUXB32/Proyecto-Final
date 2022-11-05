@@ -237,6 +237,26 @@ while [[ true ]]; do
       clear
       break
       ;;
+      2)
+      borrarUsuario
+      clear
+      break
+      ;;
+      3)
+      listarUsuario
+      clear
+      break
+      ;;
+      4)
+      subirMotor
+      clear
+      break
+      ;;
+      5)
+      bajarMotor
+      clear
+      break
+      ;;
       6)
       exit
       clear
