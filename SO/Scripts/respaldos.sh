@@ -17,7 +17,8 @@ while [[ true ]]; do
       tar -cvf /backupbd/respaldo-binario-"$fecha".tar /var/log/mariadb/*
       read -p "asd" NaN
       rsync -aAXv --exclude={/dev/*,/usr/*,/proc/*,/sys/*,/tmp/*,/run/*,/mnt/*,/media/*,/lost+found,/backup/*,/root/*} /* /backup/respaldo-"$fecha"/
-      mv /backup/respaldo-"$fecha"/* /media/respaldosKefruta
+      mkdir /media/respaldosKefruta/respaldo-"$fecha"
+      mv /backup/respaldo-"$fecha"/* /media/respaldosKefruta/respaldo-"$fecha"
       clear
       break
       ;;
