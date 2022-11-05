@@ -146,7 +146,7 @@ function borrarUsuario(){
     done
   fi
 
-  mysql -u consultaUsuarios < Sql/selectUser.sql > Sql/.resultado.txt
+  mysql -u consultaUsuarios --password=consultaBd1234. < Sql/selectUser.sql > Sql/.resultado.txt
 
   existe=$(cat Sql/.resultado.txt | grep -o "^$nombre[[:blank:]]\+" | grep "^$nombre[[:blank:]]\+$")
 
@@ -216,7 +216,7 @@ function borrarUsuario(){
 function listarUsuario(){
   clear
   echo -e "Toque cualquier tecla para volver\n\n"
-  mysql -u root --password=Aa5254598* -e "SELECT User,Host FROM mysql.user"
+  mysql -u root --password=rtBd1234. -e "SELECT User,Host FROM mysql.user"
   #mysql -u consultaUsuarios < Sql/selectUser.sql > Sql/.resultado.txt
   #cat Sql/.resultado.txt
   read -p "" NaN
