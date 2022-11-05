@@ -212,10 +212,24 @@ function listarUsuario(){
   #rm Sql/.resultado.txt
   clear
 }
+
+#################################################################################
+function subirMotor(){
+  clear
+  (systemctl start mariadb && echo "Motor iniciado correctamente") || echo "Error al inicar el motor de base de datos"
+  sleep 3
+}
+#################################################################################
+function bajarMotor(){
+  clear
+  (systemctl stop mariadb && echo "Motor parado correctamente") || echo "Error al parar el motor de base de datos"
+  sleep 3
+}
+
 ############ Menú principal ############
 while [[ true ]]; do
   echo -e "Menú de adminitración de base de datos\n"
-    select opcion in "Agruegar un administrador de BD" "Borrar usuario" "Listar usuarios actuales" "Volver"
+    select opcion in "Agruegar un administrador de BD" "Borrar usuario" "Listar usuarios actuales" "Iniciar motor de base de datos" "Parar motor de base de datos" "Volver"
   do
     case $REPLY in
       1)
@@ -223,17 +237,7 @@ while [[ true ]]; do
       clear
       break
       ;;
-      2)
-      borrarUsuario
-      clear
-      break
-      ;;
-      3)
-      listarUsuario
-      clear
-      break
-      ;;
-      4)
+      6)
       exit
       clear
       ;;
