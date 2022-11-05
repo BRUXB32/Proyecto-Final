@@ -12,10 +12,12 @@ while [[ true ]]; do
     case $REPLY in
       1)clear
       fecha=$(date +%Y-%m-%d-%H.%M.%S)
-      mysqldump -u root -prtBd1234. kefruta > /backupbd/respaldo-"$fecha".sql
-      tar -cvf /backupbd/respaldo-binario-"$fecha".tar /var/log/mariadb/*
-      rsync -aAXv --exclude={/dev/*,/usr/*,/proc/*,/sys/*,/tmp/*,/run/*,/mnt/*,/media/*,/lost+found,/backup/*,/root/*} /* /backup/respaldo-"$fecha"/
-      mv /backup/respaldo-"$fecha"/ /media/respaldosKefruta/
+      (mysqldump -u root -prtBd1234. kefruta > /backupbd/respaldo-"$fecha".sql && tar -cvf /backupbd/respaldo-binario-"$fecha".tar /var/log/mariadb/* && rsync -aAXv --exclude={/dev/*,/usr/*,/proc/*,/sys/*,/tmp/*,/run/*,/mnt/*,/media/*,/lost+found,/backup/*,/root/*} /* /backup/respaldo-"$fecha"/ && mv /backup/respaldo-"$fecha"/ /media/respaldosKefruta/ && echo "backup relizadó con exito") || echo "Error al realizar el backup, contacte con el administrador del sistema"
+      sleep 5
+      #mysqldump -u root -prtBd1234. kefruta > /backupbd/respaldo-"$fecha".sql
+      #tar -cvf /backupbd/respaldo-binario-"$fecha".tar /var/log/mariadb/*
+      #rsync -aAXv --exclude={/dev/*,/usr/*,/proc/*,/sys/*,/tmp/*,/run/*,/mnt/*,/media/*,/lost+found,/backup/*,/root/*} /* /backup/respaldo-"$fecha"/
+      #mv /backup/respaldo-"$fecha"/ /media/respaldosKefruta/
       clear
       break
       ;;
