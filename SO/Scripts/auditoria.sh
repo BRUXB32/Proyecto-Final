@@ -2,11 +2,11 @@
 clear
 ############ Cambios necesarios antes de iniciar el script ############
 
-Cambio el mensaje de "select"
+#Cambio el mensaje de "select"
 PS3="Ingrese una opción: "
 
 while [[ true ]]; do
-  echo -e "Menú de respaldos\n"
+  echo -e "Menú de auditorias\n"
     select opcion in "Listar inicios del sistema" "Auditoria reciente" "Volver"
   do
     case $REPLY in
@@ -19,6 +19,7 @@ while [[ true ]]; do
       journalctl -b
       clear
       break
+      ;;
       3)
       exit
       ;;
