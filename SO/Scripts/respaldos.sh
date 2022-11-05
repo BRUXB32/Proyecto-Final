@@ -7,7 +7,7 @@ PS3="Ingrese una opción: "
 
 while [[ true ]]; do
   echo -e "Menú de respaldos\n"
-    select opcion in "Respaldo completo" "Volver"
+    select opcion in "Respaldo completo local" "Respaldo completo servidor respaldo" "Volver"
   do
     case $REPLY in
       1)clear
@@ -17,8 +17,8 @@ while [[ true ]]; do
       tar -cvf /backupbd/respaldo-binario-"$fecha".tar /var/log/mariadb/*
       read -p "asd" NaN
       rsync -aAXv --exclude={/dev/*,/usr/*,/proc/*,/sys/*,/tmp/*,/run/*,/mnt/*,/media/*,/lost+found,/backup/*,/root/*} /* /backup/respaldo-"$fecha"/
-      mkdir /media/respaldosKefruta/respaldo-"$fecha"
-      mv /backup/respaldo-"$fecha"/* /media/respaldosKefruta/respaldo-"$fecha"
+      #mkdir /media/respaldosKefruta/respaldo-"$fecha"/
+      mv /backup/respaldo-"$fecha"/ /media/respaldosKefruta/
       clear
       break
       ;;
