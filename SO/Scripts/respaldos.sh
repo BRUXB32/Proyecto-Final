@@ -22,8 +22,7 @@ while [[ true ]]; do
       2)clear
       fecha=$(date +%Y-%m-%d-%H.%M.%S)
       (mysqldump -u root -prtBd1234. kefruta > /backupbd/respaldo-"$fecha".sql && tar -cvf /backupbd/respaldo-binario-"$fecha".tar /var/log/mariadb/* && echo "Backup relizadó con exito") || echo "No se pudo hacer el respaldo, contacte con el adminitrador del sistema"
-      read -p "asd" NaN
-      sleep 10
+      sleep 5
       clear
       break
       ;;
