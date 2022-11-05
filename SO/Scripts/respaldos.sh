@@ -14,6 +14,7 @@ while [[ true ]]; do
       fecha=$(date +%Y-%m-%d-%H.%M.%S)
 
       mysqldump -u root -prtBd1234. kefruta > /backupbd/respaldo-"$fecha".sql
+      read -p "asd" NaN
       tar -cvf /backupbd/respaldo-binario-"$fecha".tar /var/log/mariadb/*
       read -p "asd" NaN
       rsync -aAXv --exclude={/dev/*,/usr/*,/proc/*,/sys/*,/tmp/*,/run/*,/mnt/*,/media/*,/lost+found,/backup/*,/root/*} /* /backup/respaldo-"$fecha"/
