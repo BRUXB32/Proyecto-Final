@@ -2,7 +2,7 @@
 clear
 ############ Cambios necesarios antes de iniciar el script ############
 
-Cambio el mensaje de "select"
+#Cambio el mensaje de "select"
 PS3="Ingrese una opción: "
 
 while [[ true ]]; do
@@ -14,7 +14,7 @@ while [[ true ]]; do
       fecha=$(date +%Y-%m-%d-%H.%M.%S)
 
       mysqldump -u root -prtBd1234. kefruta > /backupbd/respaldo-"$fecha".sql
-      tar -cvf /var/log/mariadb/* /backupbd/respaldo-binario-"$fecha"
+      tar -cvf /var/log/mariadb/* /backupbd/respaldo-binario-"$fecha".tar
       read -p "asd" NaN
       rsync -aAXv --exclude={/dev/*,/usr/*,/proc/*,/sys/*,/tmp/*,/run/*,/mnt/*,/media/*,/lost+found,/backup/*,/root/*} /* /backup/respaldo-"$fecha"/
       mv /backup/respaldo-"$fecha"/* /media/respaldosKefruta
