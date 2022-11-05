@@ -146,13 +146,13 @@ function borrarUsuario(){
     done
   fi
 
-  mysql -u consultaUsuarios --password=consultaBd1234. < Sql/selectUser.sql > Sql/.resultado.txt
+  mysql -u consultaUsuarios -pconsultaBd1234. < Sql/selectUser.sql > Sql/.resultado.txt
 
   existe=$(cat Sql/.resultado.txt | grep -o "^$nombre[[:blank:]]\+" | grep "^$nombre[[:blank:]]\+$")
 
-  echo "$nombre"
-  echo "$existe"
-  read -p "asd" asd
+  #echo "$nombre"
+  #echo "$existe"
+  #read -p "asd" asd
   if [[ "$existe" != "$nombre" ]]; then
     echo "¡El usuario no existe!"
     sleep 2
