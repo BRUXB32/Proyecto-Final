@@ -216,13 +216,13 @@ function listarUsuario(){
 #################################################################################
 function subirMotor(){
   clear
-  (systemctl start mariadb && echo "Motor iniciado correctamente") || echo "Error al inicar el motor de base de datos"
+  (sudo systemctl start mariadb && echo "Motor iniciado correctamente") || echo "Error al inicar el motor de base de datos"
   sleep 3
 }
 #################################################################################
 function bajarMotor(){
   clear
-  (systemctl stop mariadb && echo "Motor parado correctamente") || echo "Error al parar el motor de base de datos"
+  (sudo systemctl stop mariadb && echo "Motor parado correctamente") || echo "Error al parar el motor de base de datos"
   sleep 3
 }
 
