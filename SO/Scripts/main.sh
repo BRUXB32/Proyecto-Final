@@ -3,8 +3,7 @@ clear
 ############ Cambios necesarios antes de iniciar el script ############
 
 #Agrego permisos de ejecicción al resto de scripts
-chmod u+x admMain.sh
-chmod u+x admBd.sh
+chmod u+x *.sh
 
 #Cambio el mensaje de "select"
 PS3="Ingrese una opción: "
